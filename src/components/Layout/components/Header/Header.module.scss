@@ -96,6 +96,8 @@
 .actions {
     display: flex;
     align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
 .more-btn {
@@ -116,6 +118,9 @@
     font-size: 2rem;
     padding: 4px 12px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .user-avatar {

@@ -26,6 +26,8 @@ import styles from './Header.module.scss';
 import images from '~/access/images';
 import AccountItem from '~/components/AccountItem';
 import Menu from '~/components/Popper/Menu';
+import { UploadIcon, MessageIcon, InboxIcon, SearchIcon } from '~/components/Icons';
+import Image from '~/components/Image';
 
 const cx = classNames.bind(styles);
 
@@ -108,7 +110,6 @@ function Header() {
                 </div>
                 <HeadlessTippy
                     interactive
-                    //visible={searchResult.length > 0}
                     appendTo={document.body}
                     render={(attrs) => (
                         <div className={cx('search-result')} tabIndex="-1" {...attrs}>
@@ -130,7 +131,7 @@ function Header() {
                         <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />
 
                         <button className={cx('search-btn')}>
-                            <FontAwesomeIcon icon={faMagnifyingGlass} />
+                            <SearchIcon />
                         </button>
                     </div>
                 </HeadlessTippy>
@@ -140,7 +141,17 @@ function Header() {
                         <>
                             <Tippy content="Upload video" placement="bottom" delay={[0, 150]}>
                                 <button className={cx('action-btn')}>
-                                    <FontAwesomeIcon icon={faCloudUpload} />
+                                    <UploadIcon />
+                                </button>
+                            </Tippy>
+                            <Tippy content="Message" placement="bottom" delay={[0, 150]}>
+                                <button className={cx('action-btn')}>
+                                    <MessageIcon />
+                                </button>
+                            </Tippy>
+                            <Tippy content="Inbox" placement="bottom" delay={[0, 150]}>
+                                <button className={cx('action-btn')}>
+                                    <InboxIcon />
                                 </button>
                             </Tippy>
                         </>
@@ -154,10 +165,11 @@ function Header() {
                     )}
                     <Menu items={currentUser ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
                         {currentUser ? (
-                            <img
+                            <Image
                                 className={cx('user-avatar')}
                                 alt="Avt"
                                 src="https://th.bing.com/th/id/OIP.FMVlBgSR1yIERWA4IThsmwHaEo?w=234&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+                                // Error src=""
                             />
                         ) : (
                             <button className={cx('more-btn')}>
