@@ -13,13 +13,6 @@
     border-radius: var(--search-border-radius);
     border: 1.5px solid transparent;
 
-    .search-title {
-        padding: 5px 12px;
-        font-size: 1.4rem;
-        font-weight: 600;
-        color: rgba(22, 24, 35, 0.5);
-    }
-
     input {
         flex: 1;
         height: 100%;
@@ -46,6 +39,13 @@
         border-color: rgba(22, 24, 35, 0.2);
     }
 }
+.search-title {
+    padding: 5px 12px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: rgba(22, 24, 35, 0.5);
+}
+
 .search-btn {
     width: var(--search-btn-width);
     height: 100%;
@@ -69,4 +69,22 @@
     top: 50%;
     transform: translateY(-50%);
     color: rgba(22, 24, 35, 0.34);
+}
+
+.loading {
+    animation: spinner 1s linear infinite;
+}
+@keyframes spinner {
+    from {
+        transform: translateY(-50%) rotate(0);
+    }
+    to {
+        transform: translateY(-50%) rotate(360deg);
+    }
+}
+.search-result {
+    pointer-events: auto !important;
+}
+[data-tippy-root] {
+    pointer-events: auto; /* Ensure it allows clicks */
 }
