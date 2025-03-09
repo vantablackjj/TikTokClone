@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind';
 import styles from './Search.module.scss';
 import { useEffect, useState, useRef } from 'react';
-
+import { useDebounce } from '~/hooks';
+import * as searchServices from '~/apiServices/searchServices';
 const cx = classNames.bind(styles);
 
 function Search() {
@@ -17,34 +18,43 @@ function Search() {
     const [loading, setLoading] = useState(false);
     const [forceRender, setForceRender] = useState(0);
 
+    const debounced = useDebounce(searchValue, 500);
+
     const inputRef = useRef();
     const wrapperRef = useRef();
 
     useEffect(() => {
-        if (!searchValue.trim()) {
+        if (!debounced.trim()) {
             setSearchResult([]);
             setShowResult(false);
             setForceRender((prev) => prev + 1);
+
             return;
         }
 
-        setLoading(true);
+        // let isMounted = true;
+        const fetchApi = async () => {
+            setLoading(true);
 
-        fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(searchValue)}&type=less`)
-            .then((res) => res.json())
-            .then((res) => {
-                setSearchResult(res.data);
-                setLoading(false);
-            })
-            .catch(() => {
-                setLoading(false);
-            });
-    }, [searchValue]);
+            const result = await searchServices.search(debounced);
+
+            const hasMatch = result.some((item) => item.full_name.toLowerCase().includes(debounced.toLowerCase()));
+            if (hasMatch) {
+                setSearchResult(result);
+            } else {
+                setSearchResult([]);
+                setForceRender((prev) => prev + 1);
+            }
+            setLoading(false);
+        };
+        fetchApi();
+    }, [debounced]);
+
     useEffect(() => {
         const handleClickOutside = (event) => {
-            console.log('Clicked outside!', event.target); // Debugging
+            //console.log('Clicked outside!', event.target); // Debugging
             if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-                console.log('Hiding Tippy...');
+                //console.log('Hiding Tippy...');
                 setShowResult(false);
                 setForceRender((prev) => prev + 1);
             }
@@ -53,6 +63,7 @@ function Search() {
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
+
     return (
         <div ref={wrapperRef}>
             <HeadlessTippy
