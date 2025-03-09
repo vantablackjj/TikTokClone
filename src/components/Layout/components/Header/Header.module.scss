@@ -18,6 +18,9 @@
     justify-content: space-between;
     padding: 0 var(--default-layout-horizontal-spacer);
 }
+.logo-link {
+    display: flex;
+}
 
 //Actions
 .actions {

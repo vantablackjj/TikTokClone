@@ -12,7 +12,7 @@ import {
     faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import Tippy from '@tippyjs/react';
-
+import { Link } from 'react-router-dom';
 import Button from '~/components/Button';
 import 'tippy.js/dist/tippy.css';
 import styles from './Header.module.scss';
@@ -21,6 +21,8 @@ import Menu from '~/components/Popper/Menu';
 import { UploadIcon, MessageIcon, InboxIcon } from '~/components/Icons';
 import Image from '~/components/Image';
 import Search from '../Search';
+import routeConfig from '~/config/routes';
+
 const cx = classNames.bind(styles);
 
 const MENU_ITEMS = [
@@ -91,7 +93,9 @@ function Header() {
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <div className={cx('logo')}>
-                    <img src={images.logo} alt="logo"></img>
+                    <Link to={routeConfig.home} className={cx('logo-link')}>
+                        <img src={images.logo} alt="logo"></img>
+                    </Link>
                 </div>
 
                 {/* Search */}

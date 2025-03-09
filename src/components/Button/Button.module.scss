@@ -8,7 +8,7 @@
     background-color: var(--white);
     border: 1px solid transparent;
     user-select: none;
-    font-family: 'ProximaNova', sans-serif;
+    font-family: var(--font-family);
     + .wrapper {
         margin-left: 8px;
     }
