@@ -32,7 +32,6 @@ function Search() {
             return;
         }
 
-        // let isMounted = true;
         const fetchApi = async () => {
             setLoading(true);
 

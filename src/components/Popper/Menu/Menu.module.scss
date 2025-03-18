@@ -14,6 +14,10 @@
 .menu-popper {
     padding-bottom: 8px;
 }
+.menu-body {
+    overflow-y: auto;
+}
+
 //Menu wrapper
 .menu-list {
     width: 100%;
@@ -30,6 +34,7 @@
 
 //Header component
 .header {
+    flex-shrink: 0;
     position: relative;
     height: 50px;
     margin-top: -8px;

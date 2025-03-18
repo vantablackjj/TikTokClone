@@ -77,7 +77,7 @@ function Header() {
         },
         {
             icon: <FontAwesomeIcon icon={faGear} />,
-            title: 'Settinngs',
+            title: 'Settings',
             to: '/settings',
         },
         ...MENU_ITEMS,
@@ -98,7 +98,6 @@ function Header() {
                     </Link>
                 </div>
 
-                {/* Search */}
                 <Search />
 
                 <div className={cx('actions')}>
