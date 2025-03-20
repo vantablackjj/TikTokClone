@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Button.module.scss';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 const cx = classNames.bind(styles);
 
 function Button({
@@ -28,7 +29,7 @@ function Button({
 
     if (disable) {
         Object.keys(props).forEach((key) => {
-            if (key.startWith('on') && typeof props[key] === 'funciton') {
+            if (key.startWith('on') && typeof props[key] === 'function') {
                 delete props[key];
             }
         });
@@ -62,5 +63,22 @@ function Button({
         </Comp>
     );
 }
+
+Button.propTypes = {
+    children: PropTypes.node.isRequired,
+    to: PropTypes.string,
+    href: PropTypes.string,
+    onClick: PropTypes.func,
+    primary: PropTypes.bool,
+    outline: PropTypes.bool,
+    small: PropTypes.bool,
+    large: PropTypes.bool,
+    text: PropTypes.bool,
+    disable: PropTypes.bool,
+    rounded: PropTypes.bool,
+    className: PropTypes.string,
+    leftIcon: PropTypes.node,
+    rightIcon: PropTypes.node,
+};
 
 export default Button;
