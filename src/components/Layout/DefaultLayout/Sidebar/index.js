@@ -3,6 +3,7 @@ import styles from './Sidebar.module.scss';
 import config from '~/config';
 import Menu, { MenuItem } from './Menu';
 import { HomeIcon, LiveIcon, UserGroupIcon } from '~/components/Icons';
+import SuggestedAccounts from 'src/components/SuggestedAccounts';
 const cx = classNames.bind(styles);
 
 function Siderbar() {
@@ -13,7 +14,8 @@ function Siderbar() {
                 <MenuItem title="Following" to={config.routes.following} icon={<UserGroupIcon />} />
                 <MenuItem title="Live" to={config.routes.live} icon={<LiveIcon />} />
             </Menu>
-            <h1>Suggest Account</h1>
+            <SuggestedAccounts label="Suggested Accounts" />
+            {/* <SuggestedAccounts label="Following" /> */}
         </aside>
     );
 }
