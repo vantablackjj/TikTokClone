@@ -15,7 +15,7 @@ function Siderbar() {
                 <MenuItem title="Live" to={config.routes.live} icon={<LiveIcon />} />
             </Menu>
             <SuggestedAccounts label="Suggested Accounts" />
-            {/* <SuggestedAccounts label="Following" /> */}
+            <SuggestedAccounts label="Following" />
         </aside>
     );
 }

@@ -21,11 +21,17 @@ function AccountItem() {
 
     return (
         <div>
-            <Tippy interactive delay={[800, 0]} render={renderPreview} placement="bottom-start" offset={[-15, 0]}>
+            <Tippy
+                interactive
+                delay={[800, 800]}
+                render={renderPreview}
+                placement="bottom-start"
+                appendTo={document.body}
+            >
                 <div className={cx('account-item')}>
                     <img
                         className={cx('avatar')}
-                        src="https://yt3.ggpht.com/Cj2dtcsSnJYLXgpz5bgmTsLR_buGtQle8UQgPCJBKuwNDNbxVud98zM5ul4cBTbeEVsJxRUmhF8=s88-c-k-c0x00ffffff-no-rj"
+                        src="https://images4.alphacoders.com/136/thumbbig-1369866.webp"
                         alt=""
                     />
                     <div className={cx('item-info')}>
