@@ -17,7 +17,7 @@ import Button from '~/components/Button';
 import 'tippy.js/dist/tippy.css';
 import styles from './Header.module.scss';
 import images from '~/access/images';
-import Menu from '~/components/Popper/Menu';
+import Menu from 'src/components/Popper/Menu';
 import { UploadIcon, MessageIcon, InboxIcon } from '~/components/Icons';
 import Image from '~/components/Image';
 import Search from '../Search';
