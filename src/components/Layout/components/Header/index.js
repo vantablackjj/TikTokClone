@@ -22,6 +22,9 @@ import { UploadIcon, MessageIcon, InboxIcon } from '~/components/Icons';
 import Image from '~/components/Image';
 import Search from '../Search';
 import config from '~/config';
+import { useNavigate } from 'react-router-dom';
+
+import { UserAuth } from 'src/components/Store/AuthContext';
 
 const cx = classNames.bind(styles);
 
@@ -57,11 +60,17 @@ const MENU_ITEMS = [
 ];
 
 function Header() {
-    const currentUser = true;
-
+    const { tokenStr, userAuth, setOpenFormLogin } = UserAuth();
+    const navigate = useNavigate();
     //Handle Logic
     const handleMenuChange = (menuItem) => {
         console.log(menuItem);
+    };
+
+    console.log(tokenStr);
+    console.log(userAuth);
+    const handleLogIn = () => {
+        tokenStr && userAuth ? navigate('/upload') : setOpenFormLogin(true);
     };
 
     const userMenu = [
@@ -84,8 +93,8 @@ function Header() {
         {
             icon: <FontAwesomeIcon icon={faSignOut} />,
             title: 'Log out',
-            to: '/logout',
             separate: true,
+            component: true,
         },
     ];
 
@@ -101,7 +110,7 @@ function Header() {
                 <Search />
 
                 <div className={cx('actions')}>
-                    {currentUser ? (
+                    {tokenStr && userAuth ? (
                         <>
                             <Tippy content="Upload video" placement="bottom" delay={[0, 150]}>
                                 <button className={cx('action-btn')}>
@@ -122,13 +131,13 @@ function Header() {
                     ) : (
                         <>
                             <Button text>Upload </Button>
-                            <Button primary rightIcon={<FontAwesomeIcon icon={faSignIn} />}>
+                            <Button onClick={handleLogIn} primary rightIcon={<FontAwesomeIcon icon={faSignIn} />}>
                                 Log in
                             </Button>
                         </>
                     )}
-                    <Menu items={currentUser ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
-                        {currentUser ? (
+                    <Menu items={tokenStr && userAuth ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
+                        {tokenStr && userAuth ? (
                             <Image
                                 className={cx('user-avatar')}
                                 alt="Avt"

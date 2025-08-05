@@ -582,8 +582,9 @@ export const LogoutIcon = ({ width = '2rem', height = '2rem', className }) => (
     </svg>
 );
 
-export const BackIcon = ({ width = '2rem', height = '2rem', className }) => (
+export const BackIcon = ({ width = '2rem', height = '2rem', className, ...props }) => (
     <svg
+        {...props}
         className={className}
         width={width}
         data-e2e=""

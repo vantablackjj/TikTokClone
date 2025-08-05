@@ -1,15 +1,27 @@
+/* autoprefixer grid: autoplace */
+
 .section-video {
     display: flex;
     align-items: flex-end;
 }
+
 .card-video {
     position: relative;
     border-radius: 6px;
     overflow: hidden;
     cursor: pointer;
+
     &:hover .container-control {
         display: block;
     }
+}
+
+.video-horizontal {
+    max-width: calc(450px + ((100vw - 768px) / 1152) * 200);
+}
+
+.video-vertical {
+    height: calc(450px + ((100vw - 768px) / 1152) * 200);
 }
 
 .container-video {
@@ -24,6 +36,9 @@
     display: block;
     width: 100%;
     height: 100%;
+    // object-fit: contain;
+    width: 100%;
+    height: 100%;
 }
 
 .video {
@@ -34,7 +49,114 @@
     height: 100%;
     object-fit: cover;
 }
+
 .video-hidden {
     display: none;
     visibility: hidden;
+}
+
+.container-control {
+    // display: none;
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    width: 95%;
+    // height: 100%;
+}
+
+.btn-control {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: black;
+    cursor: pointer;
+}
+
+.play-control {
+    display: flex;
+    flex-direction: column;
+    left: 12px;
+    bottom: 26px;
+    padding: 10px;
+}
+
+.voice-control {
+    right: 12px;
+    bottom: 26px;
+    padding: 8px;
+}
+
+.input-control {
+    width: 100%;
+    height: 12px;
+    padding: 0 12px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    bottom: 12px;
+}
+
+.progress-time {
+    display: inline-block;
+    flex: 0 0 67px;
+    max-width: 67px;
+    font-weight: 400;
+    font-size: 1rem;
+    color: black;
+    margin-left: 12px;
+}
+
+.content {
+    position: relative;
+    flex: 1;
+    height: 2px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    cursor: default;
+
+    &:hover {
+        height: 4px;
+    }
+
+    &:hover .slider-thumb {
+        display: block;
+    }
+}
+
+// VIDEO ACTIONS
+
+.container-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.container-actions,
+.container-actions .actions-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin-top: 8px;
+    margin-bottom: 6px;
+    border-radius: 50%;
+    background-color: #1618230f;
+}
+
+.info-count {
+    font-weight: 700;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    color: #161823bf;
 }

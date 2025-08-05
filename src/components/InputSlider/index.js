@@ -10,18 +10,19 @@ function InputSlider({
     borderRadius = '8px',
     width = '100%',
     height = '100%',
-    heightX = '4px',
+    heightX = '15px',
     widthX = '100%',
     heightY = '150px',
-    widthY = '4px',
-    heightOver = '6px',
-    bgWrapper,
+    widthY = '10px',
 
-    bgThumb = 'rgba(255, 255, 255)',
+    heightOver = '10px',
+    bgWrapper,
+ 
+    bgThumb = 'rgba(241, 7, 7, 0.34)',
     widthThumb = '12px',
     heightThumb = '12px',
-    bgBar = 'rgba(255, 255, 255, 0.34)',
-    bgProgress = 'rgba(255, 255, 255)',
+    bgBar = 'rgba(87, 82, 82, 0.34)',
+    bgProgress = 'rgba(73, 34, 34, 0.34)',
     onChange = () => {},
     onSeekStart = () => {},
     onSeekEnd = () => {},
@@ -137,5 +138,31 @@ function InputSlider({
         </div>
     );
 }
+
+InputSlider.propTypes = {
+    className: PropTypes.string,
+    borderRadius: PropTypes.string,
+    width: PropTypes.string,
+    height: PropTypes.string,
+    heightX: PropTypes.string,
+    widthX: PropTypes.string,
+    heightY: PropTypes.string,
+    widthY: PropTypes.string,
+    heightOver: PropTypes.string,
+    bgWrapper: PropTypes.string,
+    bgThumb: PropTypes.string,
+    widthThumb: PropTypes.string,
+    heightThumb: PropTypes.string,
+    bgBar: PropTypes.string,
+    bgProgress: PropTypes.string,
+    onChange: PropTypes.func,
+    onSeekStart: PropTypes.func,
+    onSeekEnd: PropTypes.func,
+    pseudoProps: PropTypes.object,
+    min: PropTypes.number,
+    max: PropTypes.number,
+    value: PropTypes.number,
+    step: PropTypes.number,
+};
 
 export default InputSlider;

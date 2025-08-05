@@ -6,12 +6,17 @@ import { useState } from 'react';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import MenuItems from './MenuItems';
 import Header from './Header';
+import { UserAuth } from '../../Store/AuthContext';
+
 const cx = classNames.bind(styles);
 
 const defaultFn = () => {};
 
 function Menu({ children, items = [], onChange = defaultFn, hideOnClick = false }) {
+    const { setOpenFormLogout } = UserAuth();
+
     const [history, setHistory] = useState([{ data: items }]);
+
     const current = history[history.length - 1];
 
     const renderItems = () => {
@@ -24,6 +29,8 @@ function Menu({ children, items = [], onChange = defaultFn, hideOnClick = false 
                     onClick={() => {
                         if (isParent) {
                             setHistory((prev) => [...prev, { data: item.children.data }]);
+                        } else if (item.component) {
+                            setOpenFormLogout(true);
                         } else {
                             onChange(item);
                         }

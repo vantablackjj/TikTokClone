@@ -6,15 +6,16 @@
 .video-items {
     display: flex;
     align-items: flex-start;
-    min-width: 100%;
+    min-width: 80%;
     padding: 20px 0;
+    max-width: 300px;
 }
 
 .video-items + .video-items {
     border-top: 1px solid rgba(22, 24, 35, 0.2);
 }
 .avatar {
-    width: 56px;
+    width: 70px;
     height: 56px;
     overflow: hidden;
     margin-right: 10px;

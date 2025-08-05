@@ -32,15 +32,15 @@ function VolumeVideo({
 
     return (
         <div
-            className={cx('volumn-wrapper', {
+            className={cx('volume-wrapper', {
                 [className]: className,
             })}
         >
             <div className={cx('control-wrapper')} onClick={onClick}>
                 {isMute ? (
-                    <VolumeIcon width={widthIcon} height={heightIcon}></VolumeIcon>
-                ) : (
                     <VolumeMuteIcon width={widthIcon} height={heightIcon}></VolumeMuteIcon>
+                ) : (
+                    <VolumeIcon width={widthIcon} height={heightIcon}></VolumeIcon>
                 )}
             </div>
             <div style={{ bottom: y, left: x }} className={cx('slider-container')}>
@@ -67,7 +67,7 @@ function VolumeVideo({
 }
 
 VolumeVideo.propTypes = {
-    volumeValue: PropTypes.number.isRequired,
+    volumeValue: PropTypes.number,
     onClick: PropTypes.func,
     className: PropTypes.string,
     onChangeVolume: PropTypes.func.isRequired,

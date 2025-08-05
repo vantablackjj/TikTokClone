@@ -7,21 +7,21 @@ import reportWebVitals from './reportWebVitals';
 import GlobalStyles from '~/components/GlobalStyles';
 import { VideoProvider } from './components/Store/VideoContext';
 import { AuthProvider } from './components/Store/AuthContext';
+import { NotifyProvider } from './components/Store/NotifyContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
     <React.StrictMode>
         <AuthProvider>
             <VideoProvider>
-                <GlobalStyles>
-                    <App />
-                </GlobalStyles>
+                <NotifyProvider>
+                    <GlobalStyles>
+                        <App />
+                    </GlobalStyles>
+                </NotifyProvider>
             </VideoProvider>
         </AuthProvider>
     </React.StrictMode>,
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

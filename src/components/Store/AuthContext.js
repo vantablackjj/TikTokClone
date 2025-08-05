@@ -4,13 +4,18 @@ import PropTypes from 'prop-types';
 const AuthContext = React.createContext();
 
 export function UserAuth() {
-    return useContext(AuthContext);
+    const context = useContext(AuthContext);
+    return context;
 }
 
 export function AuthProvider({ children }) {
     const [openFormLogin, setOpenFormLogin] = useState(false);
+    const [openFullVideo, setOpenFullVideo] = useState(false);
+    const [openFormLogout, setOpenFormLogout] = useState(false);
+    const [openFormEdit, setOpenFormEdit] = useState(false);
+    const [openFormDiscard, setOpenFormDiscard] = useState(false);
 
-    const tokenStr = JSON.parse(localStorage.getItem('token')) ?? '';
+    const tokenStr = JSON.parse(localStorage.getItem('user')) ?? '';
     const userAuth = JSON.parse(localStorage.getItem('user-id')) ?? '';
 
     const value = {
@@ -18,6 +23,14 @@ export function AuthProvider({ children }) {
         userAuth,
         setOpenFormLogin,
         openFormLogin,
+        setOpenFullVideo,
+        openFullVideo,
+        setOpenFormLogout,
+        openFormLogout,
+        setOpenFormEdit,
+        openFormEdit,
+        setOpenFormDiscard,
+        openFormDiscard,
     };
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

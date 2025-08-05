@@ -8,10 +8,15 @@ export function UserVideo() {
 }
 
 export function VideoProvider({ children }) {
+    const [likeCount, setLikeCount] = useState(0);
+
+    const [likeVideo, setLikeVideo] = useState(false);
+    const [idVideo, setIdVideo] = useState();
+    const [positionVideo, setPositionVideo] = useState(null);
     const [listVideos, setListVideos] = useState([]);
     const [listVideoHome, setListVideoHome] = useState([]);
     const [mutedVideo, setMutedVideo] = useState(true);
-    const [valueVolumn, setValueVolume] = useState(0);
+    const [valueVolume, setValueVolume] = useState(0);
     const value = {
         listVideos,
         setListVideos,
@@ -19,8 +24,16 @@ export function VideoProvider({ children }) {
         setListVideoHome,
         mutedVideo,
         setMutedVideo,
-        valueVolumn,
+        valueVolume,
         setValueVolume,
+        positionVideo,
+        setPositionVideo,
+        idVideo,
+        setIdVideo,
+        likeVideo,
+        setLikeVideo,
+        likeCount,
+        setLikeCount,
     };
     return <VideoContext.Provider value={value}>{children}</VideoContext.Provider>;
 }

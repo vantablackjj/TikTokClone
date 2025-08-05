@@ -1,0 +1,558 @@
+// .comment-items {
+//     margin-bottom: 20px;
+// }
+
+// .comment-container {
+//     display: flex;
+//     align-items: center;
+// }
+
+// .user-comment {
+//     display: flex;
+//     flex: 1;
+//     line-height: 1;
+// }
+
+// .user-info {
+//     flex: 1;
+// }
+
+// .user-avatar {
+//     min-width: 40px;
+//     width: 40px;
+//     height: 40px;
+//     margin-right: 12px;
+
+//     img {
+//         width: 100%;
+//         height: 100%;
+//         border-radius: 50%;
+//         object-fit: cover;
+//     }
+// }
+
+// .text-form {
+//     position: relative;
+//     margin-bottom: 16px;
+//     flex: 1;
+// }
+
+// .text-area {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     width: 100%;
+//     padding: 12px 48px 12px 8px;
+//     font-weight: 400;
+//     font-size: 1.4rem;
+//     color: #161823;
+//     border-radius: 12px;
+//     border: 1px solid transparent;
+//     background-color: rgba(22, 24, 35, 0.06);
+//     outline: none;
+//     resize: none;
+//     overflow: hidden;
+// }
+
+// .btn-send {
+//     position: absolute;
+//     top: 50%;
+//     right: 13px;
+//     transform: translateY(-50%);
+//     background: transparent;
+
+//     &:disabled {
+//         background: transparent;
+//         opacity: 0.5;
+//     }
+// }
+
+// .cancle-edit {
+//     position: absolute;
+//     display: block;
+//     margin-top: 6px;
+//     font-weight: 600;
+//     font-size: 1.2rem;
+//     color: #161823bf;
+
+//     & span {
+//         color: #0866ff;
+//         cursor: pointer;
+
+//         &:hover {
+//             text-decoration: underline;
+//         }
+//     }
+// }
+
+// .nickname,
+// .text-bottom {
+//     font-size: 1.4rem;
+//     line-height: 1.8rem;
+// }
+
+// .nickname {
+//     font-weight: 600;
+//     color: #161823;
+// }
+
+// .comment-creator {
+//     font-size: 1.4rem;
+//     color: #fe2c55;
+// }
+
+// .text-content {
+//     line-height: 1.6;
+//     margin-bottom: 4px;
+//     span {
+//         line-height: 1.8rem;
+//     }
+//     word-wrap: break-word; /* Add this */
+//     overflow-wrap: break-word; /* And this */
+//     white-space: pre-wrap; /* Preserve formatting but allow wrapping */
+//     max-width: 100%; /* Ensure it doesn't overflow container */
+// }
+
+// .subcontent {
+//     display: flex;
+//     align-items: center;
+//     justify-content: flex-start;
+//     gap: 8px;
+// }
+
+// .text-bottom {
+//     color: #16182380;
+// }
+
+// .actions-comments {
+//     cursor: pointer;
+// }
+
+// .action-comments {
+//     margin-left: 18px;
+// }
+
+// .like-comment {
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//     color: #16182380;
+// }
+
+// .like-btn {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     color: #16182380;
+//     cursor: pointer;
+// }
+
+// .more-btn {
+//     line-height: 0;
+//     cursor: pointer;
+// }
+
+// .likes-count {
+//     height: 24px;
+//     font-size: 1.6rem;
+//     line-height: 2.1rem;
+// }
+
+// .loading-container {
+//     display: flex;
+//     width: 100%;
+
+//     .loading-avatar {
+//         min-width: 40px;
+//         width: 40px;
+//         height: 40px;
+//         border-radius: 50%;
+//     }
+// }
+
+// .load-content {
+//     width: 100%;
+//     margin-left: 20px;
+
+//     .loading-info {
+//         width: 160px;
+//         height: 24px;
+//         border-radius: 0;
+//     }
+
+//     .loading-des {
+//         width: 412px;
+//         height: 20px;
+//         margin-top: 4px;
+//         border-radius: 0;
+//     }
+
+//     .loading-time {
+//         height: 12px;
+//         width: 96px;
+//         margin-top: 8px;
+//         border-radius: 0;
+//     }
+// }
+
+// .container-wrapper {
+//     min-width: 200px;
+//     padding: 8px 16px;
+//     background: #fff;
+//     box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
+// }
+
+// .item-wrapper {
+//     display: flex;
+//     align-items: center;
+//     justify-content: flex-start;
+//     padding: 12px 0;
+//     color: #161823;
+//     cursor: pointer;
+
+//     &:hover {
+//         color: rgb(254, 44, 85);
+//     }
+// }
+
+// .item-title {
+//     margin-left: 12px;
+//     font-weight: 700;
+//     font-size: 1.6rem;
+//     line-height: 2.1rem;
+// }
+/* Comment.module.scss */
+
+.wrapper-comments {
+    width: 100%;
+    max-width: 100%;
+    font-family: 'ProximaNova', Arial, sans-serif;
+}
+
+.comments-items {
+    margin-bottom: 0;
+}
+
+.comment-container {
+    display: flex;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(22, 24, 35, 0.06);
+    position: relative;
+}
+
+.user-comment {
+    display: flex;
+    flex: 1;
+    min-width: 0; /* Important for text overflow */
+}
+
+.user-avatar {
+    min-width: 40px;
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+    flex-shrink: 0;
+
+    img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+}
+
+.user-info {
+    flex: 1;
+    min-width: 0; /* Important for text overflow */
+}
+
+.nickname {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+    color: #161823;
+    margin-right: 4px;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.comment-creator {
+    font-size: 1.4rem;
+    color: #fe2c55;
+    margin-left: 4px;
+}
+
+.text-content {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    margin: 4px 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+
+    /* For long unbroken text */
+    &.long-text {
+        position: relative;
+        max-height: 4.8em;
+        overflow: hidden;
+
+        &.expanded {
+            max-height: none;
+        }
+
+        &::after {
+            content: '...';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(to right, transparent, white 50%);
+            padding-left: 8px;
+        }
+
+        &.expanded::after {
+            display: none;
+        }
+    }
+}
+
+.show-more-btn {
+    background: none;
+    border: none;
+    color: #0866ff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    margin-top: 4px;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.subcontent {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.text-bottom {
+    font-size: 1.2rem;
+    color: rgba(22, 24, 35, 0.5);
+}
+
+.actions-comments {
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.action-comments {
+    margin-left: 12px;
+    align-self: flex-start;
+}
+
+.like-comment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: rgba(22, 24, 35, 0.5);
+}
+
+.like-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.more-btn {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+        background-color: rgba(22, 24, 35, 0.06);
+    }
+}
+
+.likes-count {
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+}
+
+/* Edit Mode Styles */
+.text-form {
+    position: relative;
+    flex: 1;
+    margin-right: 12px;
+}
+
+.text-area {
+    width: 100%;
+    padding: 12px 48px 12px 12px;
+    font-size: 1.4rem;
+    color: #161823;
+    border-radius: 8px;
+    border: 1px solid rgba(22, 24, 35, 0.12);
+    background-color: rgba(22, 24, 35, 0.06);
+    outline: none;
+    resize: none;
+    min-height: 80px;
+    transition: all 0.2s ease;
+
+    &:focus {
+        border-color: #0866ff;
+        background-color: #fff;
+    }
+}
+
+.btn-send {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+.cancle-edit {
+    display: block;
+    margin-top: 8px;
+    font-size: 1.2rem;
+    color: rgba(22, 24, 35, 0.75);
+
+    span {
+        color: #0866ff;
+        cursor: pointer;
+        margin-left: 4px;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+/* Loading State */
+.loading-container {
+    display: flex;
+    padding: 12px 0;
+
+    .loading-avatar {
+        min-width: 40px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: rgba(22, 24, 35, 0.06);
+    }
+}
+
+.load-content {
+    flex: 1;
+    margin-left: 12px;
+
+    .loading-info {
+        width: 160px;
+        height: 16px;
+        background-color: rgba(22, 24, 35, 0.06);
+        border-radius: 4px;
+        margin-bottom: 8px;
+    }
+
+    .loading-des {
+        width: 100%;
+        height: 16px;
+        background-color: rgba(22, 24, 35, 0.06);
+        border-radius: 4px;
+        margin-bottom: 4px;
+    }
+
+    .loading-time {
+        width: 80px;
+        height: 12px;
+        background-color: rgba(22, 24, 35, 0.06);
+        border-radius: 4px;
+    }
+}
+
+/* Dropdown Menu */
+.container-wrapper {
+    min-width: 100px;
+    padding: 8px 0;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.item-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+        background-color: rgba(22, 24, 35, 0.03);
+    }
+
+    svg {
+        margin-right: 8px;
+    }
+}
+
+.item-title {
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+/* Reply specific styles */
+.reply-indicator {
+    font-size: 1.2rem;
+    color: rgba(22, 24, 35, 0.5);
+    margin-bottom: 4px;
+}
+
+/* URL styling */
+.text-content a {
+    color: #0866ff;
+    word-break: break-all;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.copy-link {
+    color: #0866ff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 4px;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
