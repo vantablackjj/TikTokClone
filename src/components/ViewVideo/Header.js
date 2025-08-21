@@ -20,10 +20,7 @@ function Header({ data = {}, isFollow = false, setFollowStatus = () => {} }) {
         setFollowUser(isFollow);
     }, [isFollow]);
 
-    useEffect(() => {
-        console.log(isFollow);
-        console.log();
-    }, [isFollow]);
+    useEffect(() => {}, [isFollow]);
 
     const handleOpenFormLogin = () => {
         setOpenFormLogin(true);

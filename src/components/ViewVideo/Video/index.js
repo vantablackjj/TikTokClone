@@ -42,7 +42,6 @@ function Video({ data, index }) {
         setIdVideo(data.id);
         setPositionVideo(index);
         setOpenFullVideo(true);
-        console.log(openFullVideo);
     };
 
     //Handle event change time current video

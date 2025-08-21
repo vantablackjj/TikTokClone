@@ -34,7 +34,6 @@
     height: 24px;
     width: calc(100% - 250px);
     max-width: 56.25vh;
-    padding: 0 16px;
     transform: translate(-50%, 0);
 }
 
@@ -52,6 +51,8 @@
 }
 
 .slider-container {
+    padding: 0 16px;
+    min-width: 80%;
     flex: 1;
     position: relative;
     display: flex;
@@ -101,8 +102,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     background-color: #54545480;
     color: #fff;
@@ -119,8 +120,19 @@
 
 .btn-prev {
     transform: rotate(-90deg);
+    position: relative;
+    left: 7.5px;
 }
 
 .btn-next {
     transform: rotate(90deg);
+}
+.up {
+    position: relative;
+    right: 1px;
+    top: 2px;
+}
+.down {
+    position: relative;
+    top: 2.4px;
 }

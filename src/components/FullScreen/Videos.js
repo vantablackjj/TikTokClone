@@ -28,7 +28,7 @@ function Videos({ data, index, onPrevPage, onNextPage, listVideos }) {
     const { nickname } = useParams();
 
     const MIN = 0;
-    const MAX = Number(data?.media?.playtime_seconds);
+    const MAX = Number(data?.meta?.playtime_seconds);
     const STEP = 0.00001;
     const DEFAULT_VALUE = 0.7;
 
@@ -53,6 +53,11 @@ function Videos({ data, index, onPrevPage, onNextPage, listVideos }) {
         });
 
         setIsContext((prev) => !prev);
+    };
+
+    const handlePausePlay = (e) => {
+        setPlayVideo((prev) => !prev);
+        !playVideo ? videoRef.current.play() : videoRef.current.pause();
     };
 
     useEffect(() => {
@@ -108,8 +113,12 @@ function Videos({ data, index, onPrevPage, onNextPage, listVideos }) {
         videoRef.current.valueVolume = currentVolume;
     };
 
+    useEffect(() => {
+        console.log(playVideo);
+    }, [playVideo]);
+
     const handlePlayVideo = () => {
-        setPlayVideo(setIsContext(false));
+        setPlayVideo((prev) => !prev);
         !playVideo ? videoRef.current.play() : videoRef.current.pause();
     };
     //Handle volume the changing of volume
@@ -164,7 +173,7 @@ function Videos({ data, index, onPrevPage, onNextPage, listVideos }) {
     }, [isContext]);
 
     return (
-        <div className={cx('container-videos')}>
+        <div className={cx('container-videos')} onClick={handlePausePlay}>
             <div className={cx('background-videos')} style={{ backgroundImage: `${data?.thumb_url}` }}></div>
             <div className={cx('wrapper-video')}>
                 <div onContextMenu={handleContext} className={cx('card-video')}>
@@ -218,7 +227,7 @@ function Videos({ data, index, onPrevPage, onNextPage, listVideos }) {
                             'btn-prev': true,
                         })}
                     >
-                        <NavIcon></NavIcon>
+                        <NavIcon className={cx('up')}></NavIcon>
                     </Button>
                     <Button
                         disable={isLastPage}
@@ -227,20 +236,18 @@ function Videos({ data, index, onPrevPage, onNextPage, listVideos }) {
                             'btn-next': true,
                         })}
                     >
-                        <NavIcon></NavIcon>
+                        <NavIcon className={cx('down')}></NavIcon>
                     </Button>
                 </div>
                 <div className={cx('sound')}>
                     <VolumeVideo
                         onClick={handleMuteVideo}
                         onChange={handleChangeVolume}
-                        width="28px"
                         height="106px"
                         widthY="4px"
                         heightY="80px"
                         widthThumb="16px"
                         heightThumb="16px"
-                        backgroundWrapper="rgba(84, 84, 84, 0.5)"
                         className={cx('btn-direction')}
                         isMute={mutedVideo}
                         valueVolume={valueVolume}

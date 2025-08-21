@@ -1,8 +1,8 @@
 import * as callPath from '../utils/http';
 
-const comments = async (id, token) => {
+const unFollow = async (id, token) => {
     try {
-        const res = await callPath.get(`videos/${id}/comments`, {
+        const res = await callPath.post(`users/${id}/unfollow`, null, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -10,8 +10,8 @@ const comments = async (id, token) => {
 
         return res.data;
     } catch (err) {
-        return err;
+        return { errorCode: err.response.status };
     }
 };
 
-export default comments;
+export default unFollow;

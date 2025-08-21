@@ -29,11 +29,7 @@ function ListComments({ data = {}, id, isCreator = false, className }) {
     const [timeUpdateComment, setTimeupdateComment] = useState(data?.created_at);
     const [likeComments, setLikeComments] = useState(data?.like);
     const [likeCounts, setLikeCounts] = useState(data?.likes_count);
-    const [textValue, setTextValue] = useState('aa');
-
-    useEffect(() => {
-        console.log(textValue);
-    }, [textValue]);
+    const [textValue, setTextValue] = useState('');
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -48,11 +44,10 @@ function ListComments({ data = {}, id, isCreator = false, className }) {
     };
 
     const handleCancleComment = (e) => {
-        if (e.key.code === 'Escape') {
+        if (e.code === 'Escape') {
             e.preventDefault();
-        } else if (e.keycode === 'Enter') {
+        } else if (e.code === 'Enter') {
             e.preventDefault();
-
             handleSubmitComment(e);
         }
     };
@@ -60,7 +55,7 @@ function ListComments({ data = {}, id, isCreator = false, className }) {
     const handleSubmitComment = async (e) => {
         e.preventDefault();
         try {
-            const res = await config.postCommnent(data?.id, textValue, tokenStr);
+            const res = await config.postComment(data?.id, textValue, tokenStr);
             if (res) {
                 navigate(`/video/${data.id}`);
             }
@@ -161,57 +156,7 @@ function ListComments({ data = {}, id, isCreator = false, className }) {
                             {!isEditText && (
                                 <div className={cx('action-comments')}>
                                     <div className={cx('like-comment')}>
-                                        <div>
-                                            <TippyHeadless
-                                                visible
-                                                delay={[0, 200]}
-                                                interactive
-                                                placement="right-start"
-                                                render={(attrs) => (
-                                                    <div tabIndex="-1" {...attrs}>
-                                                        <Wrapper className={cx('container-wrapper')}>
-                                                            {data?.user?.id === userAuth.id ? (
-                                                                <>
-                                                                    <div
-                                                                        onClick={() => handleEditComment(valueComments)}
-                                                                        className={cx('item-wrapper')}
-                                                                    >
-                                                                        <EditIcon />
-                                                                        <span className={cx('item-title')}>Edit</span>
-                                                                    </div>
-                                                                    <div
-                                                                        onClick={() =>
-                                                                            handleOpenFormDelete(
-                                                                                data?.comment,
-                                                                                data?.id,
-                                                                            )
-                                                                        }
-                                                                        className={cx('item-wrapper')}
-                                                                    >
-                                                                        <DeleteIcon />
-                                                                        <span className={cx('item-title')}>Delete</span>
-                                                                    </div>
-                                                                </>
-                                                            ) : (
-                                                                <div
-                                                                    onClick={() =>
-                                                                        handleOpenFormDelete(data?.comment, data?.id)
-                                                                    }
-                                                                    className={cx('item-wrapper')}
-                                                                >
-                                                                    <ReportIcon />
-                                                                    <span className={cx('item-title')}>Report</span>
-                                                                </div>
-                                                            )}
-                                                        </Wrapper>
-                                                    </div>
-                                                )}
-                                            >
-                                                <div className={cx('more-btn')}>
-                                                    <EllipsesHozironIcon />
-                                                </div>
-                                            </TippyHeadless>
-                                        </div>
+                                        <div className={cx('tippy-container')}></div>
                                         <div
                                             onClick={() =>
                                                 tokenStr && userAuth

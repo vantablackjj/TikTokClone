@@ -7,6 +7,8 @@ import TippyHeadless from '@tippyjs/react/headless';
 import Tippy from '@tippyjs/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
+import { useRef } from 'react';
 
 import Image from '../../Image';
 import Button from '../../Button';
@@ -26,6 +28,7 @@ import {
     TwitterRoundIcon,
     CheckIcon,
     EllipsesHozironIcon,
+    LoveIcon,
 } from '../../CustomIcon';
 import ListComments from '../../ListComments';
 import TextBox from '../../TextBox';
@@ -62,9 +65,14 @@ const DATA_MENUS = [
 ];
 
 function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVideoState = [] }) {
+    const navigate = useNavigate();
+    const TextArea = useRef();
+    console.log(data);
     const { setOpenFormLogin, tokenStr, userAuth } = UserAuth();
     const { likeVideo, setLikeVideo, likeCount, setLikeCount } = UserVideo();
+    const { setInfoNotify, infoNotify } = UserNotify();
 
+    const [textValue, setTextValue] = useState('');
     const [getDataComment, setGetDataComment] = useState([]);
     const [loading, setLoading] = useState(false);
     const [isFollow, setIsFollow] = useState(data?.user?.is_followed);
@@ -76,11 +84,85 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
 
     const handleOpenFormDelete = () => {};
 
-    //Handle take comment API
+    const handleLikeVideo = async (id) => {
+        if (likeVideo) {
+            try {
+                const res = await config.unLikeVideo(id, tokenStr);
+                console.log(res?.data);
+                setLikeVideo(res?.data?.is_liked);
+                setLikeCount(res?.data?.likes_count);
+            } catch (error) {}
+        } else {
+            const res = await config.likeVideo(id, tokenStr);
+            console.log(res?.data);
+            setLikeVideo(res?.data?.is_liked);
+            setLikeCount(res?.data?.likes_count);
+        }
+    };
+
+    const handleFollow = async (id) => {
+        try {
+            // Optimistically flip the state
+            setIsFollow((prev) => !prev);
+
+            if (isFollow) {
+                await config.unFollow(id, tokenStr);
+            } else {
+                await config.follow(id, tokenStr);
+            }
+
+            // Notify based on local state
+            setInfoNotify({
+                content: !isFollow
+                    ? `You are currently following ${data?.user?.nickname}`
+                    : `You have unfollowed ${data?.user?.nickname}`,
+                delay: 2000,
+                isNotify: true,
+            });
+        } catch (error) {
+            console.error(error);
+
+            setIsFollow((prev) => !prev);
+            setInfoNotify({
+                content: 'Something went wrong.',
+                delay: 2000,
+                isNotify: true,
+            });
+        }
+    };
+
+    const handleOpenFormLogin = () => {
+        setOpenFormLogin(true);
+    };
+    const handleSubmitComment = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await config.postComment(data?.id, textValue, tokenStr);
+            if (res) {
+                navigate(`/video/${data.id}`);
+            }
+            setInfoNotify({
+                content: 'success',
+                delay: 2000,
+                isNotify: true,
+            });
+        } catch (error) {
+            setInfoNotify({
+                content: 'failed',
+                delay: 2000,
+                isNotify: true,
+            });
+        }
+    };
+
+    const handleComment = (e) => {
+        setTextValue(e.target.value);
+    };
+
+    // Handle take comment API
     useEffect(() => {
         const debugData = async () => {
             const data = await config.comment(idVideo, tokenStr);
-            console.log('Fetched video data:', data);
         };
         debugData();
     }, [positionVideo, listVideo]);
@@ -92,7 +174,7 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
             }
 
             const data = await config.comment(idVideo, tokenStr);
-            console.log('Fetched comment data:', data);
+
             setGetDataComment(data);
         };
 
@@ -130,7 +212,7 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
                                 </p>
                             </div>
                         </div>
-                        {true ? (
+                        {userAuth?.id === data?.user?.id ? (
                             <div>
                                 <TippyHeadless
                                     delay={[0, 500]}
@@ -161,6 +243,7 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
                             </div>
                         ) : (
                             <Button
+                                onClick={() => (tokenStr && userAuth ? handleFollow(data?.id) : handleOpenFormLogin)}
                                 className={cx('btn-follow', {
                                     'btn-unfollow': isFollow,
                                 })}
@@ -183,9 +266,12 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
                     <div className={cx('action-video')}>
                         <div className={cx('handler')}>
                             <div className={cx('action')}>
-                                <Button className={cx('btn-action')}>
+                                <Button
+                                    className={cx('btn-action')}
+                                    onClick={() => (userAuth && tokenStr ? handleLikeVideo : handleOpenFormLogin)}
+                                >
                                     {likeVideo ? (
-                                        <LovedIcon width="2rem" height="2rem" fill="red"></LovedIcon>
+                                        <LoveIcon width="2rem" height="2rem" fill="red"></LoveIcon>
                                     ) : (
                                         <LovedIcon width="2rem" height="2rem" fill="white"></LovedIcon>
                                     )}
@@ -237,14 +323,20 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
                     </div>
                     <div className={cx('wrapper-comments')}>
                         {getDataComment.map((item, index) => (
-                            <ListComments data={item} id={index}></ListComments>
+                            <ListComments key={item.id || index} data={item} id={index} />
                         ))}
                     </div>
                 </div>
             </aside>
             <footer className={cx('footer-comment')}>
                 <div className={cx('container-footer')}>
-                    <TextBox></TextBox>
+                    <TextBox
+                        onChange={handleComment}
+                        textValue={textValue}
+                        setTextValue={setTextValue}
+                        onClick={handleSubmitComment}
+                        ref={TextArea}
+                    ></TextBox>
                 </div>
             </footer>
         </div>

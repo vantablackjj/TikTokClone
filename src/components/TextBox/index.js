@@ -228,26 +228,10 @@ const DATA_EMOJIES = [
     },
 ];
 
-const TextBox = forwardRef=>(
-    (
-     {
-            className,
-            onChange = () => {},
-            onClick = () => {},
-            onKeyDown = () => {},
-            setTextValue = () => {},
-            textValue = '',
-            width,
-            height,
-        },
-        ref,
-    ) => {
+const TextBox = forwardRef(
+    ({ className, onChange, onClick, onKeyDown, setTextValue, textValue, width, height }, ref) => {
         const [isTableEmoji, setIsTableEmoji] = useState(false);
         const [isActiveTab, setIsActiveTab] = useState(false);
-
-        useEffect(() => {
-            console.log(textValue);
-        }, [textValue]);
 
         useEffect(() => {
             if (ref) {
@@ -273,7 +257,6 @@ const TextBox = forwardRef=>(
         };
         const handleSelectEmoji = (icon) => {
             if (ref && ref?.current) {
-                console.log('fired');
                 ref.current.focus();
                 setTextValue((prev) => `${prev + icon}`);
             }
@@ -296,12 +279,14 @@ const TextBox = forwardRef=>(
                                 ref={ref}
                                 placeholder="Add comments..."
                                 className={cx('text-form')}
-                                onKeyDown={(e) => onKeyDown(e)}
-                                onChange={(e) => onChange(e)}
+                                onKeyDown={(e) => onKeyDown?.(e)}
+                                onChange={(e) => {
+                                    onChange?.(e);
+                                }}
                                 value={textValue}
                                 rows={1}
                             />
-                            <div className={cx('current-length')}>{`${textValue.length}`}/150</div>
+                            {/* <div className={cx('current-length')}>{`${(textValue.length ?? '').length}`}/150</div> */}
                         </div>
                         <div className={cx('emoji-container')}>
                             <Button
@@ -329,7 +314,13 @@ const TextBox = forwardRef=>(
                             )}
                         </div>
                     </div>
-                    <Button onClick={onClick} disabled={textValue ? false : true} className={cx('btn-post')}>
+                    <Button
+                        onClick={(e) => {
+                            onClick(e);
+                        }}
+                        disabled={textValue ? false : true}
+                        className={cx('btn-post')}
+                    >
                         Post
                     </Button>
                 </form>

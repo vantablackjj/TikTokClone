@@ -63,12 +63,8 @@ function Header() {
     const { tokenStr, userAuth, setOpenFormLogin } = UserAuth();
     const navigate = useNavigate();
     //Handle Logic
-    const handleMenuChange = (menuItem) => {
-        console.log(menuItem);
-    };
+    const handleMenuChange = (menuItem) => {};
 
-    console.log(tokenStr);
-    console.log(userAuth);
     const handleLogIn = () => {
         tokenStr && userAuth ? navigate('/upload') : setOpenFormLogin(true);
     };
