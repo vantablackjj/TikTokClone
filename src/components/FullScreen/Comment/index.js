@@ -33,6 +33,7 @@ import {
 import ListComments from '../../ListComments';
 import TextBox from '../../TextBox';
 import config from '../../../services';
+import { use } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -67,15 +68,14 @@ const DATA_MENUS = [
 function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVideoState = [] }) {
     const navigate = useNavigate();
     const TextArea = useRef();
-    console.log(data);
     const { setOpenFormLogin, tokenStr, userAuth } = UserAuth();
-    const { likeVideo, setLikeVideo, likeCount, setLikeCount } = UserVideo();
+    const { likeVideo, setLikeVideo, likeCount, setLikeCount, follow, setFollow } = UserVideo();
     const { setInfoNotify, infoNotify } = UserNotify();
 
     const [textValue, setTextValue] = useState('');
     const [getDataComment, setGetDataComment] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [isFollow, setIsFollow] = useState(data?.user?.is_followed);
+
     const [commentCount, setCommentCount] = useState(data?.comments_count || 0);
     const [success, setSuccess] = useState(false);
 
@@ -85,35 +85,37 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
     const handleOpenFormDelete = () => {};
 
     const handleLikeVideo = async (id) => {
-        if (likeVideo) {
+        const liked = likeVideo?.[id] ?? data?.is_liked;
+
+        if (liked) {
             try {
                 const res = await config.unLikeVideo(id, tokenStr);
-                console.log(res?.data);
-                setLikeVideo(res?.data?.is_liked);
-                setLikeCount(res?.data?.likes_count);
+                setLikeVideo((prev) => ({ ...prev, [id]: !!res?.is_liked }));
+                setLikeCount((prev) => ({ ...prev, [id]: res?.likes_count }));
             } catch (error) {}
         } else {
             const res = await config.likeVideo(id, tokenStr);
-            console.log(res?.data);
-            setLikeVideo(res?.data?.is_liked);
-            setLikeCount(res?.data?.likes_count);
+
+            setLikeVideo((prev) => ({ ...prev, [id]: !!res?.is_liked }));
+            setLikeCount((prev) => ({ ...prev, [id]: res?.likes_count }));
         }
     };
 
     const handleFollow = async (id) => {
         try {
-            // Optimistically flip the state
-            setIsFollow((prev) => !prev);
+            const followed = follow?.[id] ?? data?.user?.is_followed;
 
-            if (isFollow) {
-                await config.unFollow(id, tokenStr);
+            if (followed) {
+                const res = await config.unFollow(id, tokenStr);
+                setFollow((prev) => ({ ...prev, [id]: res?.data?.is_followed }));
             } else {
-                await config.follow(id, tokenStr);
+                const res = await config.follow(id, tokenStr);
+                setFollow((prev) => ({ ...prev, [id]: res?.data?.is_followed }));
             }
 
             // Notify based on local state
             setInfoNotify({
-                content: !isFollow
+                content: !followed
                     ? `You are currently following ${data?.user?.nickname}`
                     : `You have unfollowed ${data?.user?.nickname}`,
                 delay: 2000,
@@ -122,7 +124,6 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
         } catch (error) {
             console.error(error);
 
-            setIsFollow((prev) => !prev);
             setInfoNotify({
                 content: 'Something went wrong.',
                 delay: 2000,
@@ -160,6 +161,25 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
     };
 
     // Handle take comment API
+
+    useEffect(() => {
+        const fetchInitState = async () => {
+            if (!tokenStr) return;
+
+            try {
+                const res = await config.getAVideo(data.id, tokenStr);
+                // or a dedicated endpoint returning is_liked
+                setLikeVideo((prev) => ({ ...prev, [data.id]: !!res?.is_liked }));
+                setLikeCount((prev) => ({ ...prev, [data.id]: res?.likes_count }));
+                setFollow((prev) => ({ ...prev, [data.user.id]: res?.user?.is_followed }));
+            } catch (err) {
+                console.error('Failed to fetch like state:', err);
+            }
+        };
+
+        fetchInitState();
+    }, [data.id, tokenStr]);
+
     useEffect(() => {
         const debugData = async () => {
             const data = await config.comment(idVideo, tokenStr);
@@ -184,9 +204,6 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
     //Handle Update like and follow state
 
     useEffect(() => {
-        setIsFollow(data?.user?.is_followed);
-        setLikeVideo(data?.is_liked);
-        setLikeCount(data?.likes_count);
         setCommentCount(data?.comments_count || 0);
     }, [data]);
 
@@ -243,14 +260,16 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
                             </div>
                         ) : (
                             <Button
-                                onClick={() => (tokenStr && userAuth ? handleFollow(data?.id) : handleOpenFormLogin)}
+                                onClick={() =>
+                                    tokenStr && userAuth ? handleFollow(data?.user?.id) : handleOpenFormLogin
+                                }
                                 className={cx('btn-follow', {
-                                    'btn-unfollow': isFollow,
+                                    'btn-unfollow': follow[data?.user?.id],
                                 })}
                                 primary
                                 medium
                             >
-                                {isFollow ? 'Following' : 'Follow'}
+                                {follow[data?.user?.id] ? 'Following' : 'Follow'}
                             </Button>
                         )}
                     </div>
@@ -268,15 +287,15 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
                             <div className={cx('action')}>
                                 <Button
                                     className={cx('btn-action')}
-                                    onClick={() => (userAuth && tokenStr ? handleLikeVideo : handleOpenFormLogin)}
+                                    onClick={() => (tokenStr ? handleLikeVideo(data?.id) : setOpenFormLogin)}
                                 >
-                                    {likeVideo ? (
-                                        <LoveIcon width="2rem" height="2rem" fill="red"></LoveIcon>
+                                    {likeVideo?.[data.id] ? (
+                                        <LovedIcon width="2rem" height="2rem"></LovedIcon>
                                     ) : (
-                                        <LovedIcon width="2rem" height="2rem" fill="white"></LovedIcon>
+                                        <LoveIcon width="2rem" height="2rem"></LoveIcon>
                                     )}
                                 </Button>
-                                <span className={cx('counts')}>{likeCount}</span>
+                                <span className={cx('counts')}>{likeCount?.[data.id] ?? data?.likes_count}</span>
                             </div>
                             <div className={cx('btn-action')}>
                                 <Button>

@@ -12,6 +12,7 @@ const cx = classNames.bind(styles);
 
 function FullScreen() {
     const { positionVideo, setPositionVideo, setListVideos, listVideos } = UserVideo();
+    const { setOpenFormLogin, tokenStr, userAuth } = UserAuth();
 
     const [videoData, setVideoData] = useState({});
     const [urlPath, setUrlPath] = useState();
@@ -40,8 +41,6 @@ function FullScreen() {
         };
     }, [positionVideo, listVideos]);
 
-    useEffect(() => {});
-
     useEffect(() => {
         const idVideo = listVideos[positionVideo]?.id;
 
@@ -49,7 +48,7 @@ function FullScreen() {
     }, [positionVideo, listVideos]);
 
     const fetchApi = async (idVideo) => {
-        const data = await config.getAVideo(idVideo);
+        const data = await config.getAVideo(idVideo, tokenStr);
 
         setVideoData(data);
     };

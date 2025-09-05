@@ -10,7 +10,7 @@ const follow = async (id, token) => {
 
         return res.data;
     } catch (err) {
-        return { errorCode: err.response.status };
+        console.log(err);
     }
 };
 

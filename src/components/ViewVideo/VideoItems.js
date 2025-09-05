@@ -15,7 +15,6 @@ import { Wrapper as PopperWrapper } from 'src/components/Popper';
 const cx = classNames.bind(styles);
 
 function VideoItems({ data = [] }) {
-    const [followStatus, setFollowStatus] = useState(data.filter((i) => i.user.is_followed).map((i) => i.user.id));
     const [visibleIndex, setVisibleIndex] = useState(null);
     const hideTimeoutRef = useRef();
 
@@ -70,11 +69,7 @@ function VideoItems({ data = [] }) {
                     </HeadlessTippy>
 
                     <div className={cx('container')}>
-                        <Header
-                            data={items}
-                            isFollow={followStatus.includes(items?.user?.id)}
-                            setFollowStatus={setFollowStatus}
-                        />
+                        <Header data={items} />
                         <div className={cx('main-video')}>
                             <Video data={items} index={index} />
                             <VideoAction data={items} index={index} />

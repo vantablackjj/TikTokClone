@@ -22,7 +22,6 @@ function Videos({ data, index, onPrevPage, onNextPage, listVideos }) {
     const { mutedVideo, setMutedVideo, valueVolume, setValueVolume } = UserVideo();
     const { infoNotify, setInfoNotify } = UserNotify();
     const { setOpenFullVideo } = UserAuth();
-
     const videoRef = useRef();
     const navigate = useNavigate();
     const { nickname } = useParams();

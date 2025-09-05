@@ -2,12 +2,13 @@ import * as callPath from '../utils/http';
 
 const unLikeVideo = async (id, token) => {
     try {
-        const res = await callPath.get(`videos/${id}unlike`, {
+        const res = await callPath.post(`videos/${id}/unlike`, null, {
             headers: {
-                Authorization: token,
+                Authorization: `Bearer ${token}`,
             },
         });
-        return res.data;
+        console.log(res);
+        return res.data.data;
     } catch (err) {
         return {
             err: err.response ? err.response.status : 'Network or unknown error',

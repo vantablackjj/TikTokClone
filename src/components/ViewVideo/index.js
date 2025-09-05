@@ -15,7 +15,7 @@ function ViewVideo({ type = '' }) {
 
     const [listVideoUser, setListVideoUser] = useState([]);
 
-    const { listVideoHome, setListVideoHome,setListVideos } = UserVideo();
+    const { listVideoHome, setListVideoHome, setListVideos } = UserVideo();
     const { tokenStr } = UserAuth();
     useEffect(() => {
         setListVideoUser(listVideoHome);

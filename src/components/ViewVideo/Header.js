@@ -6,48 +6,48 @@ import { useState, useEffect } from 'react';
 
 import config from 'src/services';
 import { UserAuth } from '../Store/AuthContext';
-import ButtonFollow from '../Button/ButtonFollow';
-import { compileString } from 'sass';
+import { UserVideo } from '../Store/VideoContext';
+import Button from '../Button';
 
 const cx = classNames.bind(styles);
 
-function Header({ data = {}, isFollow = false, setFollowStatus = () => {} }) {
+function Header({ data = {}, isFollow = false }) {
     const { tokenStr, userAuth, setOpenFormLogin } = UserAuth();
-
-    const [followUser, setFollowUser] = useState(isFollow);
-
-    useEffect(() => {
-        setFollowUser(isFollow);
-    }, [isFollow]);
-
-    useEffect(() => {}, [isFollow]);
+    const { follow, setFollow } = UserVideo();
 
     const handleOpenFormLogin = () => {
         setOpenFormLogin(true);
     };
 
-    const handleToggleFollow = async (userId) => {
-        if (followUser) {
-            handleUnFollow(userId);
+    const handleFollow = async (id) => {
+        const followed = follow?.[id] ?? false;
+        console.log('followed', followed);
+        if (followed) {
+            await config.unFollow(id, tokenStr);
+            setFollow((prev) => ({ ...prev, [id]: false }));
+            console.log('unfollowed', follow);
         } else {
-            handleFollow(userId);
+            await config.follow(id, tokenStr);
+            setFollow((prev) => ({ ...prev, [id]: true }));
+            console.log('followed', follow);
         }
     };
+    useEffect(() => {
+        const fetchInitState = async () => {
+            if (!tokenStr) return;
 
-    const handleFollow = async (userId) => {
-        // const res = await config.followUser(userId, tokenStr);
+            try {
+                const res = await config.getAVideo(data.id, tokenStr);
+                // or a dedicated endpoint returning is_liked
 
-        setFollowUser(true);
-        setFollowStatus((prev) => [...prev, userId]);
-    };
+                setFollow((prev) => ({ ...prev, [data.user.id]: res?.user?.is_followed }));
+            } catch (err) {
+                console.error('Failed to fetch like state:', err);
+            }
+        };
 
-    const handleUnFollow = async (useId) => {
-        // const res = await config.unFollowUser(useId, tokenStr);
-
-        setFollowUser(false);
-        setFollowStatus((prev) => prev.filter((i) => i !== useId));
-    };
-
+        fetchInitState();
+    }, [data.id, tokenStr]);
     return (
         <header className={cx('header-video')}>
             <div className={cx('infor')}>
@@ -68,18 +68,22 @@ function Header({ data = {}, isFollow = false, setFollowStatus = () => {} }) {
                     <span className={cx('name-music')}></span>
                 </div>
             </div>
-            <ButtonFollow
-                className={cx(isFollow ? 'btn-unfollow' : 'btn-follow')}
-                onClick={() => handleToggleFollow(data?.user?.id)}
-            ></ButtonFollow>
+            <Button
+                onClick={() => (tokenStr && userAuth ? handleFollow(data?.user?.id) : handleOpenFormLogin)}
+                className={cx('btn-follow', {
+                    'btn-unfollow': follow?.[data?.user?.id],
+                })}
+                primary
+                medium
+            >
+                {follow?.[data.user.id] ? 'Following' : 'Follow'}
+            </Button>
         </header>
     );
 }
 
 Header.propType = {
     data: PropTypes.object,
-    isFollow: PropTypes.bool,
-    setFollowStatus: PropTypes.func,
 };
 
 export default Header;
