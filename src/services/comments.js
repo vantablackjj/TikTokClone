@@ -2,7 +2,7 @@ import * as callPath from '../utils/http';
 
 const comments = async (id, token) => {
     try {
-        const res = await callPath.get(`videos/${id}/comments`, {
+        const res = await callPath.get(`/api/videos/${id}/comments`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

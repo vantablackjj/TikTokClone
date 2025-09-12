@@ -3,7 +3,7 @@ import * as callPath from '../utils/http';
 const authLogOut = async (tokenStr) => {
     try {
         const res = await callPath.post(
-            '/auth/logout',
+            '/api/auth/logout',
             {},
             {
                 headers: {

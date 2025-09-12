@@ -17,6 +17,7 @@ function ViewVideo({ type = '' }) {
 
     const { listVideoHome, setListVideoHome, setListVideos } = UserVideo();
     const { tokenStr } = UserAuth();
+
     useEffect(() => {
         setListVideoUser(listVideoHome);
     }, [listVideoHome]);
@@ -24,10 +25,14 @@ function ViewVideo({ type = '' }) {
     useEffect(() => {
         if (type === 'following') {
             const fetchApi = async () => {
-                const data = await config.videos(categories, 1, tokenStr ?? '');
+                try {
+                    const data = await config.videos(categories, 1, tokenStr ?? '');
 
-                setListVideos(data);
-                setListVideoHome(data);
+                    setListVideos(data);
+                    setListVideoHome(data);
+                } catch (error) {
+                    console.error('Error fetching following videos:', error);
+                }
             };
 
             fetchApi();

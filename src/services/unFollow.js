@@ -2,7 +2,7 @@ import * as callPath from '../utils/http';
 
 const unFollow = async (id, token) => {
     try {
-        const res = await callPath.post(`users/${id}/unfollow`, null, {
+        const res = await callPath.post(`/api/users/${id}/unfollow`, null, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -10,7 +10,7 @@ const unFollow = async (id, token) => {
 
         return res.data;
     } catch (err) {
-        return { errorCode: err.response.status };
+        console.log(err);
     }
 };
 

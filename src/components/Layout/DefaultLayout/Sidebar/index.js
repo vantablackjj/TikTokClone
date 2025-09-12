@@ -1,9 +1,11 @@
 import classNames from 'classnames/bind';
 import styles from './Sidebar.module.scss';
 import config from '~/config';
+
 import Menu, { MenuItem } from './Menu';
 import { HomeIcon, LiveIcon, UserGroupIcon } from '~/components/Icons';
 import SuggestedAccounts from 'src/components/SuggestedAccounts';
+
 const cx = classNames.bind(styles);
 
 function Siderbar() {

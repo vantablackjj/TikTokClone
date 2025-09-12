@@ -2,7 +2,7 @@ import * as callPath from '../utils/http';
 
 export const unLikeComment = async (id, token) => {
     try {
-        const res = await callPath.post(`comments/${id}/unlike`, [], {
+        const res = await callPath.post(`/api/comments/${id}/unlike`, [], {
             headers: {
                 Authorization: token,
             },

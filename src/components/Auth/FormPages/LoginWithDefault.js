@@ -52,7 +52,7 @@ function LoginWithDefault() {
                 }, [300]);
             } else {
                 setInfoNotify({
-                    content: 'Login successfull',
+                    content: 'Login successfully',
                     delay: 1500,
                     isNotify: true,
                 });

@@ -16,7 +16,13 @@ export function AuthProvider({ children }) {
     const [openFormDiscard, setOpenFormDiscard] = useState(false);
 
     const tokenStr = JSON.parse(localStorage.getItem('user')) ?? '';
-    const userAuth = JSON.parse(localStorage.getItem('user-id')) ?? '';
+    let userAuth = '';
+    try {
+        const raw = localStorage.getItem('user-id');
+        if (raw) userAuth = JSON.parse(raw);
+    } catch (e) {
+        userAuth = '';
+    }
 
     const value = {
         tokenStr,

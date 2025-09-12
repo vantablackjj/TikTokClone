@@ -2,7 +2,7 @@ import * as callPath from '../utils/http';
 
 const authSignUp = async (valueAccount, valuePassword, type) => {
     try {
-        const response = await callPath.post('/auth/register', {
+        const response = await callPath.post('/api/auth/register', {
             type: type,
             email: valueAccount,
             password: valuePassword,

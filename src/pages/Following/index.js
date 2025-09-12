@@ -1,7 +1,13 @@
 import React from 'react';
+import ViewVideo from 'src/components/ViewVideo';
 
 function Following() {
-    return <h1>Following Page</h1>;
+    const CATEGORIES = 'following';
+    return (
+        <div>
+            <ViewVideo type={CATEGORIES} />
+        </div>
+    );
 }
 
 export default Following;

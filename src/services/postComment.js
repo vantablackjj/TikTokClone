@@ -3,7 +3,7 @@ import * as callPath from '../utils/http';
 const postComment = async (id, comment, token) => {
     try {
         const res = await callPath.post(
-            `/videos/${id}/comments`,
+            `/api/videos/${id}/comments`,
             {
                 comment,
             },

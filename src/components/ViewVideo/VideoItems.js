@@ -18,7 +18,7 @@ function VideoItems({ data = [] }) {
     const [visibleIndex, setVisibleIndex] = useState(null);
     const hideTimeoutRef = useRef();
 
-    const renderPreview = (props) => {
+    const renderPreview = (items) => (props) => {
         return (
             <div
                 className={cx('preview')}
@@ -28,7 +28,7 @@ function VideoItems({ data = [] }) {
                 onMouseLeave={() => handleMouseLeave}
             >
                 <PopperWrapper>
-                    <AccountPreview />
+                    <AccountPreview data={items} />
                 </PopperWrapper>
             </div>
         );
@@ -54,7 +54,7 @@ function VideoItems({ data = [] }) {
                         onClickOutside={() => setVisibleIndex(null)} // hide when clicked outside
                         key={Math.random()}
                         interactive
-                        render={renderPreview}
+                        render={renderPreview(items)}
                         placement="bottom-start"
                         appendTo={document.body}
                         delay={[500, 100]}

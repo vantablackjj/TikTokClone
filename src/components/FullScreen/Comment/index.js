@@ -75,6 +75,7 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
     const [textValue, setTextValue] = useState('');
     const [getDataComment, setGetDataComment] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [likeComment, setLikeComment] = useState({});
 
     const [commentCount, setCommentCount] = useState(data?.comments_count || 0);
     const [success, setSuccess] = useState(false);
@@ -83,6 +84,23 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
     const [positionVideo, setPositionVideo] = statePosition;
 
     const handleOpenFormDelete = () => {};
+
+    const handleLikeComment = async () => {
+        if (!tokenStr) {
+            setOpenFormLogin(true);
+            return;
+        }
+        const liked = likeComment?.[data.id] ?? data?.is_liked;
+        if (liked) {
+            try {
+                const res = await config.unLikeComment(data?.id, tokenStr);
+                setLikeComment((prev) => ({ ...prev, [data.id]: !!res?.is_liked }));
+            } catch (error) {}
+        } else {
+            const res = await config.likeComment(data?.id, tokenStr);
+            setLikeComment((prev) => ({ ...prev, [data.id]: !!res?.is_liked }));
+        }
+    };
 
     const handleLikeVideo = async (id) => {
         const liked = likeVideo?.[id] ?? data?.is_liked;
