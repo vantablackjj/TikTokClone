@@ -25,11 +25,9 @@ function Header({ data = {}, isFollow = false }) {
         if (followed) {
             await config.unFollow(id, tokenStr);
             setFollow((prev) => ({ ...prev, [id]: false }));
-            console.log('unfollowed', follow);
         } else {
             await config.follow(id, tokenStr);
             setFollow((prev) => ({ ...prev, [id]: true }));
-            console.log('followed', follow);
         }
     };
     useEffect(() => {
@@ -65,7 +63,7 @@ function Header({ data = {}, isFollow = false }) {
                     <p className={cx('text-content')}>{data.description}</p>
                 </div>
                 <div className={cx('music')}>
-                    <span className={cx('name-music')}></span>
+                    <span className={cx('name-music')}>{data.music}</span>
                 </div>
             </div>
             <Button

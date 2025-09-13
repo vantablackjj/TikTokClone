@@ -6,21 +6,20 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import Tippy from '@tippyjs/react/headless';
 import { Wrapper as PopperWrapper } from 'src/components/Popper';
 import AccountPreview from './AccountPreview/AccountPreview';
+import Image from 'src/components/Image';
 const cx = classNames.bind(styles);
 
-function AccountItem() {
-    const renderPreview = (props) => {
-        return (
-            <div className={cx('preview')} tabIndex="-1" {...props}>
-                <PopperWrapper>
-                    <AccountPreview />
-                </PopperWrapper>
-            </div>
-        );
-    };
+function AccountItem({ data = {}, itemKey }) {
+    const renderPreview = (props) => (
+        <div className={cx('preview')} tabIndex="-1" {...props}>
+            <PopperWrapper>
+                <AccountPreview data={data} />
+            </PopperWrapper>
+        </div>
+    );
 
     return (
-        <div>
+        <div key={itemKey}>
             <Tippy
                 interactive
                 delay={[800, 800]}
@@ -29,17 +28,17 @@ function AccountItem() {
                 appendTo={document.body}
             >
                 <div className={cx('account-item')}>
-                    <img
+                    <Image
                         className={cx('avatar')}
-                        src="https://images4.alphacoders.com/136/thumbbig-1369866.webp"
-                        alt=""
+                        src={data?.user?.avatar}
+                        alt={data?.user?.nickname || 'user avatar'}
                     />
                     <div className={cx('item-info')}>
                         <p className={cx('nickname')}>
-                            <strong>VantablackJ</strong>
-                            <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />
+                            <strong>{data?.user?.nickname}</strong>
+                            {data?.user?.tick && <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />}
                         </p>
-                        <p className={cx('name')}>VantablackJ</p>
+                        <p className={cx('name')}>{data?.user?.first_name}</p>
                     </div>
                 </div>
             </Tippy>
@@ -47,6 +46,17 @@ function AccountItem() {
     );
 }
 
-AccountItem.propTypes = {};
+AccountItem.propTypes = {
+    data: PropTypes.shape({
+        user: PropTypes.shape({
+            avatar: PropTypes.string,
+            bio: PropTypes.string,
+            nickname: PropTypes.string,
+            first_name: PropTypes.string,
+            tick: PropTypes.bool,
+        }),
+    }),
+    itemKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
 
 export default AccountItem;

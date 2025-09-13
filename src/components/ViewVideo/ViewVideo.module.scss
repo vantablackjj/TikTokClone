@@ -15,10 +15,11 @@
     border-top: 1px solid rgba(22, 24, 35, 0.2);
 }
 .avatar {
-    width: 70px;
+    width: 56px;
     height: 56px;
     overflow: hidden;
     margin-right: 10px;
+    flex-shrink: 0;
 }
 
 .avatar-user {

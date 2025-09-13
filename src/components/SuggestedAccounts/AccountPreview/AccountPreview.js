@@ -15,6 +15,10 @@ function AccountPreview({ data = {} }) {
     const { tokenStr, userAuth } = UserAuth();
     const { setInfoNotify } = UserNotify();
     const handleFollow = async (id) => {
+        if (!tokenStr || !userAuth) {
+            handleOpenFormLogin();
+            return;
+        }
         try {
             const followed = follow?.[id] ?? data?.user?.is_followed;
 

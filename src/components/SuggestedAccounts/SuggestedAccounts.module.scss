@@ -1,5 +1,6 @@
 .account-item {
     display: flex;
+    align-items: center; /* ✅ vertically center avatar + text */
     padding: 8px;
     cursor: pointer;
 }
@@ -23,7 +24,11 @@
 .item-info {
     flex: 1;
     margin-left: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* ✅ centers text inside the row */
 }
+
 .nickname {
     margin-top: 0;
     font-size: 1.5rem;
@@ -31,7 +36,7 @@
     line-height: 1;
 }
 .name {
-    font-size: 1, 1rem;
+    font-size: 1.1rem;
     opacity: #161823bf;
 }
 .check {

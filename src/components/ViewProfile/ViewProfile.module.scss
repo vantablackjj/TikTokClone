@@ -1,0 +1,121 @@
+.wrapper {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.information {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    text-align: center;
+}
+
+.avatar {
+    width: 116px;
+    height: 116px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .name {
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .username {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .follow-btn {
+        margin-top: 8px;
+        padding: 6px 16px;
+        font-weight: 600;
+    }
+}
+
+.state {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    text-align: center;
+
+    div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        strong {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        span {
+            font-size: 13px;
+            color: #555;
+        }
+    }
+}
+//
+
+.wrapper-video {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 videos per row */
+    gap: 6px; /* spacing between videos */
+}
+
+.video-item {
+    position: relative;
+    aspect-ratio: 9 / 16; /* keep TikTok vertical format */
+    overflow: hidden;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover .overlay {
+        opacity: 1;
+    }
+
+    &:hover .video {
+        transform: scale(1.05);
+    }
+}
+
+.video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.icon {
+    width: 32px;
+    height: 32px;
+    color: #fff;
+}

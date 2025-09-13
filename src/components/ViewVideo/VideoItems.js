@@ -64,7 +64,7 @@ function VideoItems({ data = [] }) {
                             onMouseEnter={() => handleMouseEnter(index)} // show tooltip
                             onMouseLeave={handleMouseLeave}
                         >
-                            <Image className={cx('avatar-user')} src={items.user.avatar} />
+                            <Image className={cx('avatar-user')} src={items?.user?.avatar} />
                         </Link>
                     </HeadlessTippy>
 
