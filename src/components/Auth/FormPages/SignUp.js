@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './FormPages.module.scss';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../../Button';
@@ -12,7 +12,6 @@ const cx = classNames.bind(styles);
 
 function SignUp() {
     const navigate = useNavigate();
-
     const { setInfoNotify } = UserNotify();
 
     const [checkEmail, setCheckEmail] = useState('');
@@ -20,54 +19,54 @@ function SignUp() {
     const [valueAccount, setValueAccount] = useState('');
     const [valuePassword, setValuePassword] = useState('');
 
-    useEffect(() => {
-        console.log('checkEmail changed:', checkEmail);
-    }, [checkEmail]);
-
     const signUpPassWord = (e) => {
-        if (e.target.value.startsWith('  ')) {
-            return;
-        }
-        if (e.target.value.length > 6) {
-            setValuePassword(e.target.value);
-        } else {
-            setInfoNotify({
-                content: 'Password must be at least 6 characters long',
-                delay: 2000,
-            });
-        }
+        if (e.target.value.startsWith('  ')) return;
+        setValuePassword(e.target.value);
     };
+
     const signUpUserName = (e) => {
-        if (e.target.value.startsWith('  ')) {
-            return;
-        }
+        if (e.target.value.startsWith('  ')) return;
         const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.target.value);
-        if (isEmail) {
-            setCheckEmail('email');
-        } else {
-            setCheckEmail('id');
-        }
+        setCheckEmail(isEmail ? 'email' : 'id');
         setValueAccount(e.target.value);
     };
-    const onShow = () => {
-        setShowPass((prev) => !prev);
-    };
+
+    const onShow = () => setShowPass((prev) => !prev);
 
     const handleSignUp = async (e) => {
         e.preventDefault();
 
+        // basic client-side validation
+        if (!valueAccount || !valuePassword) {
+            setInfoNotify({
+                content: 'Please enter account and password',
+                delay: 2000,
+                isNotify: true,
+            });
+            return;
+        }
+        if (valuePassword.length < 6) {
+            setInfoNotify({
+                content: 'Password must be at least 6 characters long',
+                delay: 2000,
+                isNotify: true,
+            });
+            return;
+        }
+
         try {
             const data = await config.authSignUp(valueAccount, valuePassword, checkEmail);
+            console.log(data);
 
-            if (data.errCode) {
+            if (data.errCode === 409) {
                 setInfoNotify({
-                    content: 'Sign up failed',
+                    content: 'Email or TikTok ID already exists',
                     delay: 2000,
                     isNotify: true,
                 });
-            } else if (data.errCode === 409) {
+            } else if (data.errCode) {
                 setInfoNotify({
-                    content: 'Email or TikTok ID already exists',
+                    content: 'Sign up failed',
                     delay: 2000,
                     isNotify: true,
                 });
@@ -77,9 +76,8 @@ function SignUp() {
                     delay: 1500,
                     isNotify: true,
                 });
+                navigate('/'); // ✅ only on success
             }
-
-            navigate('/');
         } catch (error) {
             console.error('Error during sign up:', error);
             setInfoNotify({
@@ -93,14 +91,14 @@ function SignUp() {
     return (
         <div className={cx('login-inner')}>
             <h1 className={cx('title')}>Sign up</h1>
-            <form className={cx('form')}>
+            <form className={cx('form')} onSubmit={handleSignUp}>
                 <div className={cx('des-form')}>
-                    <p className={cx('type')}>Phone number</p>
+                    <p className={cx('type')}>Email or TikTok ID</p>
                     <span className={cx('link')}>Sign up by email or TikTok ID</span>
                 </div>
                 <div className={cx('container-form')}>
                     <div className={cx('form-input')}>
-                        <input type="text" placeholder="Phone Number" onChange={signUpUserName} />
+                        <input type="text" placeholder="Email or TikTok ID" onChange={signUpUserName} required />
                     </div>
                 </div>
                 <div className={cx('container-form')}>
@@ -117,11 +115,10 @@ function SignUp() {
                         </div>
                     </div>
                 </div>
+                <Button type="submit" className={cx('btn-submit')} primary large>
+                    Sign up
+                </Button>
             </form>
-
-            <Button onClick={handleSignUp} type="submit" className={cx('btn-submit')} primary large>
-                Sign up
-            </Button>
         </div>
     );
 }

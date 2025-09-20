@@ -2,15 +2,24 @@ import classNames from 'classnames/bind';
 import styles from './SuggestedAccounts.module.scss';
 import PropTypes from 'prop-types';
 import AccountItem from './AccountItem';
-
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 const cx = classNames.bind(styles);
 
 function SuggestedAccount({ label, data = [] }) {
     const [showAll, setShowAll] = useState(false);
 
-    const displayed = showAll ? data : data.slice(0, 5);
+    // remove duplicates by id
+    const uniqueData = useMemo(() => {
+        const seen = new Set();
+        return data.filter((account) => {
+            if (seen.has(account.id)) return false;
+            seen.add(account.id);
+            return true;
+        });
+    }, [data]);
+
+    const displayed = showAll ? uniqueData : uniqueData.slice(0, 5);
 
     return (
         <div className={cx('wrapper')}>
@@ -20,7 +29,7 @@ function SuggestedAccount({ label, data = [] }) {
                 <AccountItem key={account.id} data={account} />
             ))}
 
-            {data.length > 5 && (
+            {uniqueData.length > 5 && (
                 <p className={cx('more-btn')} onClick={() => setShowAll(!showAll)}>
                     {showAll ? 'Show less' : 'See all'}
                 </p>
@@ -31,6 +40,7 @@ function SuggestedAccount({ label, data = [] }) {
 
 SuggestedAccount.propTypes = {
     label: PropTypes.string.isRequired,
+    data: PropTypes.array.isRequired,
 };
 
 export default SuggestedAccount;

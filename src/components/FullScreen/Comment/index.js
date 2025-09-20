@@ -195,7 +195,7 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
         };
 
         fetchInitState();
-    }, [data.id, tokenStr]);
+    }, []);
 
     useEffect(() => {
         const debugData = async () => {

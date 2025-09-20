@@ -60,6 +60,10 @@ function LoginWithDefault() {
 
             localStorage.setItem('user-id', JSON.stringify(data.data));
             localStorage.setItem('user', JSON.stringify(`Bearer ${data.meta.token}`));
+            setTimeout(() => {
+                setIsLoading(false);
+                window.location.reload();
+            }, 300);
         } catch (error) {
             console.error('Login error:', error);
             setInfoNotify({
@@ -68,10 +72,6 @@ function LoginWithDefault() {
                 isNotify: true,
             });
         }
-        setTimeout(() => {
-            setIsLoading(false);
-            window.location.reload();
-        }, 300);
     };
     useEffect(() => {
         if (valueAccount.trim() === '' || valuePassword.trim() === '') {

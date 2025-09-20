@@ -105,13 +105,8 @@ function FormPages() {
     const [isFormLogin, setIsFormLogin] = useState(true);
     const [form, setForm] = useState(null);
 
-    useEffect(() => {
-        console.log(convertForm);
-    }, [convertForm]);
-
     const handleBackMenu = () => {
         setConvertForm(false);
-        console.log('called back menu');
     };
     const handleNextForm = (item) => {
         if (item.children) {
@@ -120,7 +115,9 @@ function FormPages() {
         }
     };
     const onChangeForm = () => {
-        setIsFormLogin(!isFormLogin);
+        setIsFormLogin((prev) => !prev);
+        setConvertForm(false);
+        setForm(null);
     };
 
     const items = isFormLogin ? MENU_LOGIN : MENU_SIGNUP;

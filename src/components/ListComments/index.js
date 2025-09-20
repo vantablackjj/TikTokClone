@@ -84,13 +84,13 @@ function ListComments({ data = {}, id, isCreator = false, className }) {
 
             setLikeComments(res?.is_liked);
             setLikeCounts(res?.likes_count);
-            console.log(res);
+            
         } else {
             const res = await config.likeComment(id, tokenStr);
 
             setLikeComments(res?.is_liked);
             setLikeCounts(res?.likes_count);
-            console.log(res);
+         
         }
     };
     const handleOpenFormLogin = () => {

@@ -15,10 +15,12 @@ function VideoAction({ data = {}, index }) {
     const { setLikeCount, setLikeVideo, likeVideo, likeCount } = UserVideo();
     const { tokenStr, userAuth, setOpenFullVideo, setOpenFormLogin } = UserAuth();
 
+    const category = 'for-you';
+
     const handleLikeVideo = async () => {
         try {
             let res;
-            const liked = likeVideo?.[data.id] ?? data?.is_liked;
+            const liked = likeVideo?.[data.id];
 
             if (liked) {
                 res = await config.unLikeVideo(data.id, tokenStr);
@@ -42,6 +44,22 @@ function VideoAction({ data = {}, index }) {
     const handleOpenFullScreen = () => {
         setOpenFullVideo(true);
     };
+
+    useEffect(() => {
+        if (!tokenStr) return;
+        const res = async () => {
+            try {
+                const data = await config.videos(category, 1, tokenStr);
+                setLikeVideo((prev) => ({ ...prev, [data.id]: !!data?.is_liked }));
+                setLikeCount((prev) => ({ ...prev, [data.id]: data?.likes_count }));
+                console.log('data', data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        res();
+    }, []);
+
     useEffect(() => {
         const fetchLikeState = async () => {
             if (!tokenStr) return;

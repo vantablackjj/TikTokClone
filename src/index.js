@@ -11,17 +11,17 @@ import { NotifyProvider } from './components/Store/NotifyContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-    <React.StrictMode>
-        <AuthProvider>
-            <VideoProvider>
-                <NotifyProvider>
-                    <GlobalStyles>
-                        <App />
-                    </GlobalStyles>
-                </NotifyProvider>
-            </VideoProvider>
-        </AuthProvider>
-    </React.StrictMode>,
+    // <React.StrictMode>
+    <AuthProvider>
+        <VideoProvider>
+            <NotifyProvider>
+                <GlobalStyles>
+                    <App />
+                </GlobalStyles>
+            </NotifyProvider>
+        </VideoProvider>
+    </AuthProvider>,
+    // </React.StrictMode>,
 );
 
 reportWebVitals();

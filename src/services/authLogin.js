@@ -7,9 +7,9 @@ const authLogin = async (email, password) => {
             email,
             password,
         });
-        console.log('Login response:', res);
+        console.log('Login response login :', res);
 
-        return res.data;
+        return res;
     } catch (err) {
         return { errorCode: err.response.status, message: err.response.data.message };
     }

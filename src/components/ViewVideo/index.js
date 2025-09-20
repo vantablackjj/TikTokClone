@@ -15,43 +15,66 @@ function ViewVideo({ type = '' }) {
 
     const [listVideoUser, setListVideoUser] = useState([]);
 
-    const { listVideoHome, setListVideoHome, setListVideos } = UserVideo();
+    const { listVideoHome, setListVideoHome, listVideos, setListVideos } = UserVideo();
     const { tokenStr } = UserAuth();
 
-    useEffect(() => {
-        setListVideoUser(listVideoHome);
-    }, [listVideoHome]);
+    // useEffect(() => {
+    //     setListVideoUser(listVideoHome);
+    // }, [listVideoHome]);
+
+    // useEffect(() => {
+    //     if (type === 'following') {
+    //         const fetchApi = async () => {
+    //             try {
+    //                 const data = await config.videos(categories, 1, tokenStr ?? '');
+
+    //                 setListVideos(data);
+    //                 setListVideoHome(data);
+    //             } catch (error) {
+    //                 console.error('Error fetching following videos:', error);
+    //             }
+    //         };
+
+    //         fetchApi();
+    //     } else {
+    //         const fetchApi = async () => {
+    //             const data = await config.videos(categories, 1, tokenStr ?? '');
+
+    //             setListVideos(data);
+    //             setListVideoHome(data);
+    //         };
+
+    //         fetchApi();
+    //     }
+    // }, [categories]);
 
     useEffect(() => {
-        if (type === 'following') {
-            const fetchApi = async () => {
-                try {
-                    const data = await config.videos(categories, 1, tokenStr ?? '');
+        const controller = new AbortController();
 
-                    setListVideos(data);
-                    setListVideoHome(data);
-                } catch (error) {
-                    console.error('Error fetching following videos:', error);
-                }
-            };
-
-            fetchApi();
-        } else {
-            const fetchApi = async () => {
-                const data = await config.videos(categories, 1, tokenStr ?? '');
+        const fetchApi = async () => {
+            try {
+                const data = await config.videos(categories, 1, tokenStr ?? '', {
+                    signal: controller.signal,
+                });
 
                 setListVideos(data);
                 setListVideoHome(data);
-            };
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    console.error('Error fetching videos:', error);
+                }
+            }
+        };
 
-            fetchApi();
-        }
-    }, [categories]);
+        fetchApi();
+
+        return () => controller.abort();
+    }, [categories, tokenStr]);
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('wrapper-video')}>
-                <VideoItems data={listVideoUser}></VideoItems>
+                <VideoItems data={listVideos}></VideoItems>
             </div>
         </div>
     );

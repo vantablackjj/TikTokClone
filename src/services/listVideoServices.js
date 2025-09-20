@@ -7,9 +7,7 @@ const videos = async (type, page, token) => {
                 type,
                 page,
             },
-            headers: {
-                Authorization: token,
-            },
+            headers: { Authorization: token },
         });
         return res.data;
     } catch (err) {
