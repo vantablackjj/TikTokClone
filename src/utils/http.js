@@ -5,10 +5,10 @@ console.log('✅ BASE_URL used by axios:', BASE_URL);
 
 const request = axios.create({
     baseURL: BASE_URL,
-    withCredentials: true,
+    withCredentials: false,
 });
 
-export const get = async (path, options = { withCredentials: true }) => {
+export const get = async (path, options = {}) => {
     const response = await request.get(path, options);
     return response.data;
 };
