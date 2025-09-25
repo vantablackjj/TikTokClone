@@ -1,7 +1,11 @@
 import axios from 'axios';
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || 'https://proxyserver-to8a.onrender.com';
+console.log('✅ BASE_URL used by axios:', BASE_URL);
+
 const request = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
+    baseURL: BASE_URL,
+    withCredentials: true,
 });
 
 export const get = async (path, options = { withCredentials: true }) => {

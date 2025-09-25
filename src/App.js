@@ -3,8 +3,12 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from '~/routes';
 import { DefaultLayout } from '~/components/Layout';
-
+import { useEffect } from 'react';
 function App() {
+    useEffect(() => {
+        console.log('✅ REACT_APP_BASE_URL in App.js:', process.env.REACT_APP_BASE_URL);
+    }, []);
+
     return (
         <Router>
             <div>
