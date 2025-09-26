@@ -5,7 +5,6 @@ console.log('✅ BASE_URL used by axios:', BASE_URL);
 
 const request = axios.create({
     baseURL: BASE_URL,
-    withCredentials: false,
 });
 
 export const get = async (path, options = {}) => {

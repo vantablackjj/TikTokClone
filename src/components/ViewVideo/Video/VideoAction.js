@@ -52,7 +52,6 @@ function VideoAction({ data = {}, index }) {
                 const data = await config.videos(category, 1, tokenStr);
                 setLikeVideo((prev) => ({ ...prev, [data.id]: !!data?.is_liked }));
                 setLikeCount((prev) => ({ ...prev, [data.id]: data?.likes_count }));
-                console.log('data', data);
             } catch (err) {
                 console.error(err);
             }
