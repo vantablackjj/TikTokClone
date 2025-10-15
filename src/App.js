@@ -4,11 +4,12 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from '~/routes';
 import { DefaultLayout } from '~/components/Layout';
 import { useEffect } from 'react';
+
 function App() {
     useEffect(() => {
-        console.log('✅ REACT_APP_BASE_URL in App.js:', process.env.REACT_APP_BASE_URL);
+        console.log('Current path:', window.location.pathname);
+        console.log('Current hash:', window.location.hash);
     }, []);
-
     return (
         <Router>
             <div>

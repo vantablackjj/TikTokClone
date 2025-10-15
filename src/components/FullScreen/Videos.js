@@ -63,10 +63,11 @@ function Videos({ data, index, onPrevPage, onNextPage, listVideos }) {
         const handleEscape = (e) => {
             if (e.key === 'Escape') {
                 setOpenFullVideo(false);
-
-                nickname ? navigate(`/${nickname}`) : navigate(`/`);
+                // Go back to previous page in history
+                navigate(-1);
             }
         };
+
         window.addEventListener('keydown', handleEscape);
         return () => {
             window.removeEventListener('keydown', handleEscape);
@@ -91,10 +92,11 @@ function Videos({ data, index, onPrevPage, onNextPage, listVideos }) {
             setIsContext(false);
         }
     };
+
     const handleClose = () => {
         setOpenFullVideo(false);
-
-        nickname ? navigate(`/${nickname}`) : navigate(`/`);
+        // Go back to previous page in history
+        navigate(-1);
     };
     const handleMuteVideo = () => {
         setMutedVideo((prev) => !prev);
