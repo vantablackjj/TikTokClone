@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import styles from './Video.module.scss';
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { replace, useNavigate } from 'react-router-dom';
 
 import Image from '../../Image';
 import PlayVideo from '../../Control/PlayVideo';
@@ -16,7 +17,7 @@ const cx = classNames.bind(styles);
 
 function Video({ data, index }) {
     const videoRef = useRef();
-
+    const navigate = useNavigate();
     const STEP = 0.0001;
     const MIN_VALUE = 0;
     const MAX_VALUE = Number(data.meta.playtime_seconds);
@@ -42,6 +43,8 @@ function Video({ data, index }) {
         setIdVideo(data.id);
         setPositionVideo(index);
         setOpenFullVideo(true);
+
+        navigate(`/video/${data.id}`, { replace: true });
     };
 
     //Handle event change time current video

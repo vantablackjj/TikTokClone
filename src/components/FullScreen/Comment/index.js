@@ -71,6 +71,7 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
     const { likeVideo, setLikeVideo, likeCount, setLikeCount, follow, setFollow } = UserVideo();
     const { setInfoNotify, infoNotify } = UserNotify();
 
+    const [comments, setComments] = useState([]);
     const [textValue, setTextValue] = useState('');
     const [getDataComment, setGetDataComment] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -156,14 +157,25 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
         e.preventDefault();
         try {
             const res = await config.postComment(data?.id, textValue, tokenStr);
+
+            const newComment = {
+                id: res?.id,
+                comment: res?.comment,
+                user: res?.user,
+                created_at: res?.created_at,
+                likes_count: res?.likes_count,
+                is_liked: res?.is_liked,
+            };
+
             if (res) {
-                navigate(`/video/${data.id}`);
+                setGetDataComment((prev) => [newComment, ...prev]);
             }
             setInfoNotify({
                 content: 'success',
                 delay: 2000,
                 isNotify: true,
             });
+            setTextValue('');
         } catch (error) {
             setInfoNotify({
                 content: 'failed',
@@ -211,7 +223,7 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
             }
 
             const data = await config.comment(idVideo, tokenStr);
-
+            console.log(data, 'comment data');
             setGetDataComment(data);
         };
 
@@ -353,7 +365,7 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
                         <div className={cx('tab-items')}>
                             <p className={cx('tab-title')}>
                                 Comments
-                                <span>({data?.comments_count})</span>
+                                <span>({commentCount})</span>
                             </p>
                         </div>
                     </div>

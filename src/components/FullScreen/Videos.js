@@ -64,7 +64,7 @@ function Videos({ data, index, onPrevPage, onNextPage, listVideos }) {
             if (e.key === 'Escape') {
                 setOpenFullVideo(false);
                 // Go back to previous page in history
-                navigate(-1);
+                navigate('/');
             }
         };
 
@@ -96,7 +96,7 @@ function Videos({ data, index, onPrevPage, onNextPage, listVideos }) {
     const handleClose = () => {
         setOpenFullVideo(false);
         // Go back to previous page in history
-        navigate(-1);
+        navigate('/');
     };
     const handleMuteVideo = () => {
         setMutedVideo((prev) => !prev);

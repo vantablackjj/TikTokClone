@@ -17,46 +17,18 @@ function ViewVideo({ type = '' }) {
 
     const { listVideoHome, setListVideoHome, listVideos, setListVideos } = UserVideo();
     const { tokenStr } = UserAuth();
-
-    // useEffect(() => {
-    //     setListVideoUser(listVideoHome);
-    // }, [listVideoHome]);
-
-    // useEffect(() => {
-    //     if (type === 'following') {
-    //         const fetchApi = async () => {
-    //             try {
-    //                 const data = await config.videos(categories, 1, tokenStr ?? '');
-
-    //                 setListVideos(data);
-    //                 setListVideoHome(data);
-    //             } catch (error) {
-    //                 console.error('Error fetching following videos:', error);
-    //             }
-    //         };
-
-    //         fetchApi();
-    //     } else {
-    //         const fetchApi = async () => {
-    //             const data = await config.videos(categories, 1, tokenStr ?? '');
-
-    //             setListVideos(data);
-    //             setListVideoHome(data);
-    //         };
-
-    //         fetchApi();
-    //     }
-    // }, [categories]);
+    const [page, setPage] = useState(1);
+    const [isLoadingComment, setIsLoadingComment] = useState(false);
 
     useEffect(() => {
         const controller = new AbortController();
 
         const fetchApi = async () => {
             try {
-                const data = await config.videos(categories, 1, tokenStr ?? '', {
+                const data = await config.videos(categories, page, tokenStr ?? '', {
                     signal: controller.signal,
                 });
-
+                setIsLoadingComment(false);
                 setListVideos(data);
                 setListVideoHome(data);
             } catch (error) {
@@ -69,12 +41,18 @@ function ViewVideo({ type = '' }) {
         fetchApi();
 
         return () => controller.abort();
-    }, [categories, tokenStr]);
+    }, [categories, tokenStr, page]);
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('wrapper-video')}>
-                <VideoItems data={listVideos}></VideoItems>
+                <VideoItems
+                    data={listVideos}
+                    page={page}
+                    setPage={setPage}
+                    setIsLoadingComment={setIsLoadingComment}
+                    isLoadingComment={isLoadingComment}
+                ></VideoItems>
             </div>
         </div>
     );

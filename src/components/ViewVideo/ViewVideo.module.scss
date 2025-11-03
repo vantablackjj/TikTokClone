@@ -101,3 +101,16 @@
     gap: 20px;
     height: auto;
 }
+
+.load-more-overlay {
+    margin-left: -90px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.load-more {
+    display: flex;
+    gap: 12px;
+}

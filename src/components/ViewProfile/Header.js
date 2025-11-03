@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 
 const cx = classNames.bind(styles);
 
-function Header({ data = {} }) {
+function Header({ data = {}, isCurrentUser }) {
     const { tokenStr } = UserAuth();
     const { follow, setFollow } = UserVideo();
     const { setInfoNotify } = UserNotify();
@@ -68,15 +68,25 @@ function Header({ data = {} }) {
                     <span className={cx('username')}>
                         {data?.first_name} {data?.last_name}
                     </span>
-                    <Button
-                        onClick={() => {
-                            if (tokenStr) handleFollow(data?.id);
-                        }}
-                        primary
-                        medium
-                    >
-                        {follow[data?.id] ?? data?.is_followed ? 'Following' : 'Follow'}
-                    </Button>
+
+                    {isCurrentUser ? (
+                        <div>
+                            <Button primary medium to="/settings">
+                                Edit profile
+                            </Button>
+                        </div>
+                    ) : (
+                        <Button
+                            onClick={() => {
+                                if (tokenStr) handleFollow(data?.id);
+                            }}
+                            primary
+                            medium
+                        >
+                            {follow[data?.id] ?? data?.is_followed ? 'Following' : 'Follow'}
+                        </Button>
+                    )}
+                    <span className={cx('bio')}>{data?.bio || 'No Bio Yet'}</span>
                 </div>
             </div>
 

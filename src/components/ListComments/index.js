@@ -16,11 +16,11 @@ import config from 'src/services';
 import { UserNotify } from '../Store/NotifyContext';
 const cx = classNames.bind(styles);
 
-function ListComments({ data = {}, id, isCreator = false, className }) {
+function ListComments({ data = {}, id, isCreator = false, className, comment }) {
     const textareaRef = useRef();
     const navigate = useNavigate();
 
-    const { setInfoNotify, infoNotify } = UserNotify();
+    const { setInfoNotify } = UserNotify();
     const { setOpenFullVideo, tokenStr, userAuth, setOpenFormLogin } = UserAuth();
 
     const [isLoadingComment, setIsLoadingComment] = useState(true);
@@ -84,13 +84,11 @@ function ListComments({ data = {}, id, isCreator = false, className }) {
 
             setLikeComments(res?.is_liked);
             setLikeCounts(res?.likes_count);
-            
         } else {
             const res = await config.likeComment(id, tokenStr);
 
             setLikeComments(res?.is_liked);
             setLikeCounts(res?.likes_count);
-         
         }
     };
     const handleOpenFormLogin = () => {
@@ -127,7 +125,9 @@ function ListComments({ data = {}, id, isCreator = false, className }) {
                                             {data?.user.nickname}
                                             {isCreator && <span className={cx('comment-creator')}> Creator </span>}
                                         </Link>
+
                                         <p className={cx('text-content')}>{valueComments}</p>
+
                                         <div className={cx('subcontent')}>
                                             <p className={cx('text-bottom')}>{timeUpdateComment}</p>
                                             <p

@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './FullScreen.module.scss';
 import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { UserAuth } from '../Store/AuthContext';
 import { UserVideo } from '../Store/VideoContext';
@@ -11,6 +12,7 @@ import Comment from './Comment';
 const cx = classNames.bind(styles);
 
 function FullScreen() {
+    const navigate = useNavigate();
     const { positionVideo, setPositionVideo, setListVideos, listVideos } = UserVideo();
     const { setOpenFormLogin, tokenStr, userAuth } = UserAuth();
 
@@ -21,7 +23,7 @@ function FullScreen() {
         const tempId = listVideos[positionVideo]?.id;
 
         if (tempId) {
-            window.history.replaceState(null, '', `/video/${tempId}`);
+            navigate(`/video/${tempId}`); // default adds to history stack
 
             setUrlPath(window.location.href);
         }

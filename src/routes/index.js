@@ -10,6 +10,7 @@ import Profile from '~/pages/Profile';
 import Upload from '~/pages/Upload';
 import Search from '~/pages/Search';
 import Live from '~/pages/Live';
+import FullScreen from '~/components/FullScreen';
 //Public routes
 const publicRoutes = [
     {
@@ -37,6 +38,10 @@ const publicRoutes = [
     {
         path: config.routes.live,
         component: Live,
+    },
+    {
+        path: '/video/:id',
+        component: FullScreen,
     },
 ];
 const privateRoutes = [];

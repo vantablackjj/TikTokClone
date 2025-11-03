@@ -65,6 +65,8 @@ function Header() {
     //Handle Logic
     const handleMenuChange = (menuItem) => {};
 
+    const currentUser = JSON.parse(localStorage.getItem('user-id'));
+
     const handleLogIn = () => {
         tokenStr && userAuth ? navigate('/upload') : setOpenFormLogin(true);
     };
@@ -73,7 +75,7 @@ function Header() {
         {
             icon: <FontAwesomeIcon icon={faUser} />,
             title: 'View Profile',
-            to: '/@profile',
+            to: `/@${currentUser.nickname}`,
         },
         {
             icon: <FontAwesomeIcon icon={faCoins} />,
