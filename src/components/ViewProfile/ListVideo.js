@@ -24,7 +24,6 @@ function ListVideo({ data = [], isCurrentUser }) {
         if (likeVideosIds.length === 0) {
             return;
         }
-        console.log('Like video IDs:', likeVideosIds);
         const fetchLikedVideos = async () => {
             try {
                 const response = await Promise.all(likeVideosIds.map((id) => config.getAVideo(id, tokenStr)));

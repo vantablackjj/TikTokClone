@@ -12,6 +12,7 @@ import { unLikeComment } from './unLikeComment';
 import unLikeVideo from './unLikeVideo';
 import likeVideo from './likeVideo';
 import profileUser from './profileUser';
+import updateUserInfo from './updateUserInfo';
 const config = {
     videos,
     getAVideo,
@@ -27,6 +28,7 @@ const config = {
     likeVideo,
     unLikeVideo,
     profileUser,
+    updateUserInfo,
 };
 
 export default config;

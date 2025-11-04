@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 
 const cx = classNames.bind(styles);
 
-function Header({ data = {}, isCurrentUser }) {
+function Header({ data = {}, isCurrentUser, setIsEdit = () => {}, isEdit }) {
     const { tokenStr } = UserAuth();
     const { follow, setFollow } = UserVideo();
     const { setInfoNotify } = UserNotify();
@@ -71,7 +71,7 @@ function Header({ data = {}, isCurrentUser }) {
 
                     {isCurrentUser ? (
                         <div>
-                            <Button primary medium to="/settings">
+                            <Button primary medium onClick={() => setIsEdit(!isEdit)}>
                                 Edit profile
                             </Button>
                         </div>
