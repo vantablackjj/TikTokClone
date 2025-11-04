@@ -65,18 +65,23 @@ function Header() {
     //Handle Logic
     const handleMenuChange = (menuItem) => {};
 
-    const currentUser = JSON.parse(localStorage.getItem('user-id'));
+    const storedUser = localStorage.getItem('user-id');
+    const currentUser = storedUser ? JSON.parse(storedUser) : null;
 
     const handleLogIn = () => {
         tokenStr && userAuth ? navigate('/upload') : setOpenFormLogin(true);
     };
 
     const userMenu = [
-        {
-            icon: <FontAwesomeIcon icon={faUser} />,
-            title: 'View Profile',
-            to: `/@${currentUser.nickname}`,
-        },
+        ...(currentUser
+            ? [
+                  {
+                      icon: <FontAwesomeIcon icon={faUser} />,
+                      title: 'View Profile',
+                      to: `/@${currentUser.nickname}`,
+                  },
+              ]
+            : []),
         {
             icon: <FontAwesomeIcon icon={faCoins} />,
             title: 'Get coins',

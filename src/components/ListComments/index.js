@@ -39,7 +39,6 @@ function ListComments({ data = {}, id, isCreator = false, className, comment }) 
     }, []);
 
     const handleChangeComment = (e) => {
-        console.log('fired');
         setTextValue(e.target.value);
     };
 

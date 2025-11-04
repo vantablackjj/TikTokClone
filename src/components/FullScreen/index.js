@@ -13,14 +13,18 @@ const cx = classNames.bind(styles);
 
 function FullScreen() {
     const navigate = useNavigate();
-    const { positionVideo, setPositionVideo, setListVideos, listVideos } = UserVideo();
+    const { positionVideo, setPositionVideo, setListVideos, listVideos, idVideo } = UserVideo();
     const { setOpenFormLogin, tokenStr, userAuth } = UserAuth();
 
     const [videoData, setVideoData] = useState({});
     const [urlPath, setUrlPath] = useState();
 
+    const videoPosition = listVideos.findIndex((video) => video.id === idVideo);
+    const tempId = listVideos[positionVideo]?.id || listVideos[videoPosition]?.id;
+
     useEffect(() => {
-        const tempId = listVideos[positionVideo]?.id;
+        const videoPosition = listVideos.findIndex((video) => video.id === idVideo);
+        const tempId = listVideos[positionVideo]?.id || listVideos[videoPosition]?.id;
 
         if (tempId) {
             navigate(`/video/${tempId}`); // default adds to history stack
@@ -44,9 +48,7 @@ function FullScreen() {
     }, [positionVideo, listVideos]);
 
     useEffect(() => {
-        const idVideo = listVideos[positionVideo]?.id;
-
-        fetchApi(idVideo);
+        fetchApi(tempId);
     }, [positionVideo, listVideos]);
 
     const fetchApi = async (idVideo) => {
@@ -63,10 +65,12 @@ function FullScreen() {
         setPositionVideo((prev) => (prev <= 0 ? prev : prev - 1));
     }, [positionVideo, listVideos]);
 
+    useEffect(() => {
+        console.log('Rendering FullScreen component with videoData:', videoData);
+    }, []);
     if (Object.keys(videoData).length === 0) {
         return;
     }
-
     return (
         <div className={cx('wrapper')}>
             <div className={cx('wrapper-modal')}>
@@ -80,7 +84,7 @@ function FullScreen() {
                 <Comment
                     urlPath={urlPath}
                     data={videoData}
-                    idVideo={listVideos[positionVideo]?.id}
+                    idVideo={listVideos[positionVideo]?.id || tempId}
                     statePosition={[positionVideo, setPositionVideo]} //role?
                     listVideoState={[listVideos, setListVideos]} //role?
                 ></Comment>

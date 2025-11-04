@@ -22,7 +22,7 @@ function Logout() {
 
     const handleLogout = async () => {
         const data = await config.authLogOut(tokenStr);
-        console.log('Logout response:', data);
+
         if (data.errCode) {
             setInfoNotify({
                 content: 'Failed to log out',

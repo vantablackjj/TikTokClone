@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import VideoItems from './VideoItems';
 import { UserVideo } from '../Store/VideoContext';
 import { UserAuth } from '../Store/AuthContext';
+import { UserNotify } from '../Store/NotifyContext';
 import config from 'src/services';
 
 const cx = classNames.bind(styles);
@@ -14,8 +15,8 @@ function ViewVideo({ type = '' }) {
     const categories = type;
 
     const [listVideoUser, setListVideoUser] = useState([]);
-
-    const { listVideoHome, setListVideoHome, listVideos, setListVideos } = UserVideo();
+    const { setInfoNotify } = UserNotify();
+    const { setListVideoHome, listVideos, setListVideos } = UserVideo();
     const { tokenStr } = UserAuth();
     const [page, setPage] = useState(1);
     const [isLoadingComment, setIsLoadingComment] = useState(false);
@@ -42,6 +43,22 @@ function ViewVideo({ type = '' }) {
 
         return () => controller.abort();
     }, [categories, tokenStr, page]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (listVideos.length === 0) {
+                setInfoNotify({
+                    content: 'Plz Refresh Page',
+                    delay: 2000,
+                    isNotify: true,
+                });
+
+                clearInterval(interval);
+            }
+        }, 15000);
+
+        return () => clearInterval(interval);
+    }, [listVideos]);
 
     return (
         <div className={cx('wrapper')}>

@@ -13,8 +13,8 @@ function SuggestedAccount({ label, data = [] }) {
     const uniqueData = useMemo(() => {
         const seen = new Set();
         return data.filter((account) => {
-            if (seen.has(account.id)) return false;
-            seen.add(account.id);
+            if (seen.has(account.user_id)) return false;
+            seen.add(account.user_id);
             return true;
         });
     }, [data]);

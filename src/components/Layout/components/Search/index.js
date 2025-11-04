@@ -51,9 +51,7 @@ function Search() {
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            //console.log('Clicked outside!', event.target); // Debugging
             if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-                //console.log('Hiding Tippy...');
                 setShowResult(false);
                 setForceRender((prev) => prev + 1);
             }

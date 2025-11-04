@@ -26,7 +26,7 @@ function VideoItems({ data = [], page, setPage = () => {}, isLoadingComment, set
                 tabIndex="-1"
                 {...props}
                 onMouseEnter={() => clearTimeout(hideTimeoutRef.current)}
-                onMouseLeave={() => handleMouseLeave}
+                onMouseLeave={handleMouseLeave}
             >
                 <PopperWrapper>
                     <AccountPreview data={items} />
@@ -34,7 +34,7 @@ function VideoItems({ data = [], page, setPage = () => {}, isLoadingComment, set
             </div>
         );
     };
-    console.log(page);
+
     const handleMouseEnter = (index) => {
         clearTimeout(hideTimeoutRef.current);
         setVisibleIndex(index);
@@ -48,9 +48,22 @@ function VideoItems({ data = [], page, setPage = () => {}, isLoadingComment, set
 
     return (
         <div className={cx('container')}>
+            {data.length === 0 && (
+                <div className={cx('loading-container')}>
+                    <LoadingElement className={cx('loading')} width="100%" height="200px" borderRadius="8px" />
+                    <LoadingElement className={cx('loading')} width="100%" height="200px" borderRadius="8px" />
+                    <LoadingElement className={cx('loading')} width="100%" height="200px" borderRadius="8px" />
+                </div>
+            )}
             {data.map((items, index) =>
-                !items ? (
-                    <LoadingElement className={cx('loading')} width="100%" height="100%" borderRadius="8px" />
+                data.length === 0 ? (
+                    <LoadingElement
+                        key={index}
+                        className={cx('loading')}
+                        width="100%"
+                        height="200px"
+                        borderRadius="8px"
+                    />
                 ) : (
                     <div key={items.id} className={cx('video-items')}>
                         <HeadlessTippy

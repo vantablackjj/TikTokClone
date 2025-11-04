@@ -56,7 +56,6 @@ function SignUp() {
 
         try {
             const data = await config.authSignUp(valueAccount, valuePassword, checkEmail);
-            console.log(data);
 
             if (data.errCode === 409) {
                 setInfoNotify({

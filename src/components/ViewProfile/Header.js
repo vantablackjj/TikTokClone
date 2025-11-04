@@ -24,10 +24,8 @@ function Header({ data = {}, isCurrentUser, setIsEdit = () => {}, isEdit }) {
             let res;
             if (followed) {
                 res = await config.unFollow(id, tokenStr);
-                console.log('unfollow', res);
             } else {
                 res = await config.follow(id, tokenStr);
-                console.log('follow', res);
             }
 
             // Flip state manually

@@ -7,7 +7,7 @@ const unLikeVideo = async (id, token) => {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log(res);
+
         return res.data.data;
     } catch (err) {
         return {

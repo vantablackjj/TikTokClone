@@ -194,13 +194,12 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
     useEffect(() => {
         const fetchInitState = async () => {
             if (!tokenStr) return;
-
             try {
                 const res = await config.getAVideo(data.id, tokenStr);
                 // or a dedicated endpoint returning is_liked
-                setLikeVideo((prev) => ({ ...prev, [data.id]: !!res?.is_liked }));
-                setLikeCount((prev) => ({ ...prev, [data.id]: res?.likes_count }));
-                setFollow((prev) => ({ ...prev, [data.user.id]: res?.user?.is_followed }));
+                setLikeVideo((prev) => ({ ...prev, [data?.id]: !!res?.is_liked }));
+                setLikeCount((prev) => ({ ...prev, [data?.id]: res?.likes_count }));
+                setFollow((prev) => ({ ...prev, [data?.user?.id]: res?.user?.is_followed }));
             } catch (err) {
                 console.error('Failed to fetch like state:', err);
             }
@@ -223,7 +222,7 @@ function Comment({ data = {}, urlPath = '', idVideo, statePosition = [], listVid
             }
 
             const data = await config.comment(idVideo, tokenStr);
-            console.log(data, 'comment data');
+
             setGetDataComment(data);
         };
 

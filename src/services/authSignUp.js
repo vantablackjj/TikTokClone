@@ -10,7 +10,6 @@ const authSignUp = async (valueAccount, valuePassword, type) => {
         return response.data;
     } catch (error) {
         if (error.response) {
-            console.log(' Server response sign up  :', error.response.data);
             return error.response.data;
         }
 

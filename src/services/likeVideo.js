@@ -7,7 +7,7 @@ const likeVideo = async (id, token) => {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log(res.data.data);
+
         return res.data;
     } catch (err) {
         return {

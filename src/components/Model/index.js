@@ -26,7 +26,7 @@ function Modal({ setIsEdit, isEdit, setUser = () => {}, user = {} }) {
                 userData.append('avatar', Avatar);
             }
             const result = await config.updateUserInfo(userData, tokenStr);
-            console.log('Update user info result:', result);
+
             setIsEdit(false);
         } catch (err) {
             console.log(err);

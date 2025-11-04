@@ -7,6 +7,8 @@ import Tippy from '@tippyjs/react/headless';
 import { Wrapper as PopperWrapper } from 'src/components/Popper';
 import AccountPreview from './AccountPreview/AccountPreview';
 import Image from 'src/components/Image';
+import { Link } from 'react-router-dom';
+
 const cx = classNames.bind(styles);
 
 function AccountItem({ data = {}, itemKey }) {
@@ -33,13 +35,13 @@ function AccountItem({ data = {}, itemKey }) {
                         src={data?.user?.avatar}
                         alt={data?.user?.nickname || 'user avatar'}
                     />
-                    <div className={cx('item-info')}>
+                    <Link className={cx('item-info')} to={`/@${data?.user?.nickname}`}>
                         <p className={cx('nickname')}>
                             <strong>{data?.user?.nickname}</strong>
                             {data?.user?.tick && <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />}
                         </p>
                         <p className={cx('name')}>{data?.user?.first_name}</p>
-                    </div>
+                    </Link>
                 </div>
             </Tippy>
         </div>

@@ -114,10 +114,6 @@ function Videos({ data, index, onPrevPage, onNextPage, listVideos }) {
         videoRef.current.valueVolume = currentVolume;
     };
 
-    useEffect(() => {
-        console.log(playVideo);
-    }, [playVideo]);
-
     const handlePlayVideo = () => {
         setPlayVideo((prev) => !prev);
         !playVideo ? videoRef.current.play() : videoRef.current.pause();

@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import styles from './Video.module.scss';
 import { useEffect } from 'react';
 
+import { useNavigate } from 'react-router-dom';
 import config from 'src/services';
 import Button from '../../Button';
 import { UserAuth } from '../../Store/AuthContext';
@@ -12,7 +13,8 @@ import { CommentIcon, LoveIcon, ShareIcon, LovedIcon } from '../../CustomIcon';
 const cx = classNames.bind(styles);
 
 function VideoAction({ data = {}, index }) {
-    const { setLikeCount, setLikeVideo, likeVideo, likeCount } = UserVideo();
+    const navigate = useNavigate();
+    const { setLikeCount, setLikeVideo, likeVideo, likeCount, setPositionVideo } = UserVideo();
     const { tokenStr, userAuth, setOpenFullVideo, setOpenFormLogin } = UserAuth();
 
     const category = 'for-you';
@@ -26,12 +28,10 @@ function VideoAction({ data = {}, index }) {
                 res = await config.unLikeVideo(data.id, tokenStr);
                 setLikeVideo((prev) => ({ ...prev, [data.id]: !!res?.is_liked }));
                 setLikeCount((prev) => ({ ...prev, [data.id]: res?.likes_count }));
-                console.log('fired');
             } else {
                 res = await config.likeVideo(data.id, tokenStr);
                 setLikeVideo((prev) => ({ ...prev, [data.id]: !!res?.is_liked }));
                 setLikeCount((prev) => ({ ...prev, [data.id]: res?.likes_count }));
-                console.log('fired-liked');
             }
         } catch (err) {
             console.error(err);
@@ -43,6 +43,9 @@ function VideoAction({ data = {}, index }) {
     };
     const handleOpenFullScreen = () => {
         setOpenFullVideo(true);
+        setPositionVideo(index);
+
+        navigate(`/video/${data.id}`, { replace: true });
     };
 
     useEffect(() => {

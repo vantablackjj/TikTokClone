@@ -11,10 +11,16 @@ const cx = classNames.bind(styles);
 
 function ListVideo({ data = [], isCurrentUser }) {
     const { setOpenFullVideo, tokenStr } = UserAuth();
-    const { likeVideo } = UserVideo();
-    const [likedVideos, setLikedVideos] = useState([]);
+    const { likeVideo, setIdVideo, idVideo } = UserVideo();
 
+    const [likedVideos, setLikedVideos] = useState([]);
     const [selectedTab, setSelectedTab] = useState('videos');
+
+    const HandleOpenFullVideo = (videoId) => {
+        setIdVideo(videoId);
+
+        setOpenFullVideo(true);
+    };
 
     useEffect(() => {
         const likeVideosIds = Object.keys(likeVideo)
@@ -60,7 +66,7 @@ function ListVideo({ data = [], isCurrentUser }) {
                                   <div
                                       key={video.id}
                                       className={cx('video-item')}
-                                      onClick={() => setOpenFullVideo(true)}
+                                      onClick={() => HandleOpenFullVideo(video.id)}
                                   >
                                       {video.file_url ? (
                                           <video className={cx('video')} src={video.file_url} muted loop />
@@ -73,7 +79,7 @@ function ListVideo({ data = [], isCurrentUser }) {
                                   <div
                                       key={video.id}
                                       className={cx('video-item')}
-                                      onClick={() => setOpenFullVideo(true)}
+                                      onClick={() => HandleOpenFullVideo(video.id)}
                                   >
                                       {video.file_url ? (
                                           <video className={cx('video')} src={video.file_url} muted loop />
@@ -87,7 +93,7 @@ function ListVideo({ data = [], isCurrentUser }) {
             ) : (
                 <div className={cx('wrapper-video')}>
                     {data.map((video, index) => (
-                        <div key={index} className={cx('video-item')} onClick={() => setOpenFullVideo(true)}>
+                        <div key={index} className={cx('video-item')} onClick={() => HandleOpenFullVideo(video.id)}>
                             <video className={cx('video')} src={video.file_url} />
                         </div>
                     ))}

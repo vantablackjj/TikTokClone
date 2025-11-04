@@ -21,7 +21,7 @@ function Header({ data = {}, isFollow = false }) {
 
     const handleFollow = async (id) => {
         const followed = follow?.[id] ?? false;
-        console.log('followed', followed);
+
         if (followed) {
             await config.unFollow(id, tokenStr);
             setFollow((prev) => ({ ...prev, [id]: false }));

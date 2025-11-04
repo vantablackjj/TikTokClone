@@ -40,7 +40,7 @@ function LoginWithDefault() {
 
         try {
             const data = await config.authLogin(valueAccount, valuePassword);
-            console.log(data);
+
             if (data.errCode) {
                 setInfoNotify({
                     content: 'Login failed',
